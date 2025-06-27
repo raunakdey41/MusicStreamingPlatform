@@ -1,0 +1,33 @@
+# ================================================
+# 🔧 Normalize text files to use LF line endings
+# ================================================
+*.html text eol=lf
+*.css text eol=lf
+*.js text eol=lf
+*.json text eol=lf
+*.md text eol=lf
+*.svg text eol=lf
+*.xml text eol=lf
+*.txt text eol=lf
+
+# ================================================
+# 🧱 Treat binary files correctly (no conversion)
+# ================================================
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
+*.webp binary
+*.mp4 binary
+*.mp3 binary
+*.woff binary
+*.woff2 binary
+*.ttf binary
+*.otf binary
+
+# ================================================
+# 💡 Optional: Handle shell scripts (for deployment/dev)
+# ================================================
+*.sh text eol=lf
+*.bat text eol=crlf
