@@ -46,7 +46,7 @@ const musicTags = [
 
 const main_url = `https://api.jamendo.com/v3.0/tracks/?client_id=${id}&format=json&limit=35&search=${musicTags[Math.ceil(Math.random()*35)]}` // URL to fetch songs for the main section
 
-const queue_url = `https://api.jamendo.com/v3.0/tracks/?client_id=${id}&format=json&limit=20&search=${musicTags[Math.floor(Math.random()*151)]}`// URL to fetch songs for the queue section
+const queue_url = `https://api.jamendo.com/v3.0/tracks/?client_id=${id}&format=json&limit=20&search=${musicTags[Math.floor(Math.random()*15)]}`// URL to fetch songs for the queue section
 
 // Storage variables for the display bar items
 
@@ -159,12 +159,21 @@ displayBar.addEventListener("click", function(){
     currentState = displayBar.getAttribute("title"); //Current condition of the display bar
 
     let playBarIcons = document.getElementsByClassName("playbar-icons");
+    let playbarHide = document.getElementsByClassName("playbar-hide");
 
     if (currentState.includes("Hide")) {
         bar.style.height = "4vh";
         displayBar.setAttribute("title", "Show Bar");
         for(let i = 0; i < playBarIcons.length; i++){
             playBarIcons[i].style.cssText = 
+            `
+            width: 0;
+            height: 0; 
+            display: none;
+            `
+        }
+        for(let i = 0; i < playbarHide.length; i++){
+            playbarHide[i].style.cssText = 
             `
             width: 0;
             height: 0; 
@@ -183,6 +192,14 @@ displayBar.addEventListener("click", function(){
             height: 2.5em;
             `
         }
+        for(let i = 0; i < playbarHide.length; i++){
+            playbarHide[i].style.cssText = 
+            `
+            width: "";
+            height: ""; 
+            display: "";
+            `
+        }
         bar.style.transitionDuration = "500ms";
     }
 });
@@ -197,11 +214,26 @@ for(let tile of songTiles){
         songImage = childNodes[1].getAttribute("src"); //Image of the song
         songName = childNodes[3].textContent; // Name of the song
         songArtist = childNodes[5].textContent; // Singer of the song
+        
+        document.getElementById("displayBar-playing").style.cssText =
+        `
+        display: flex;
+        width: 30vh;
+        height: 5vh;
+        `;
 
-        document.getElementById("displayBar-playing").style.display = "flex";
-        document.getElementById("displayBar-playing").style.width = "30vh";
-        document.getElementById("displayBar-playing").style.height = "6vh";
-            
+        document.getElementById("playing").style.width = "10vh"
+
+        document.getElementById("CurrentSong").style.cssText=
+        `
+        height: 2vh;
+        overflow: hidden;
+        `
+        document.getElementById("CurrentSinger").style.cssText=
+        `
+        height: 2vh;
+        overflow: hidden;
+        `
 
         // Assigning the values to the footer container
 

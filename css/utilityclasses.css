@@ -230,3 +230,7 @@
 .displayBar-playing{
     gap: 0.5vw;
 }
+
+.currentText{
+    font-size: 0.7em;
+}

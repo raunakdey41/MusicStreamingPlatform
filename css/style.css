@@ -113,9 +113,9 @@ main{
     border-top-left-radius: 5vw;
     border-top-right-radius:5vw;
     background: rgba(20, 20, 20, 0.95);
-    border: 0.2em solid #21446A;
+    border: 0.2em solid #566c83;
     border-bottom: none;
-    box-shadow: 0 0.2em 10em 1em rgba(10, 57, 145, 0.6);
+    box-shadow: 0 0.2em 1em 0.1em #566c83;
     padding-bottom: 2vh;
     filter: opacity(0.8);
 }
