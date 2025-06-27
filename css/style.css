@@ -1,0 +1,131 @@
+:root{
+    --bg-color: rgb(46, 45, 45);
+    --fcw: white;
+    --fcg: gray;
+    --inter: 'Inter', serif;
+    --manrope: 'Manrope', serif;
+    --outfit: 'Outfit', serif;
+    --poppins: 'Poppins', serif;
+    --btn-color: white;
+}
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: var(--manrope);
+}
+
+body{
+    background-color: black;
+    margin-right: 0.5vw;
+    margin-left: 0.5vw;
+}
+
+header{
+    position: fixed;
+    height: 8vh;
+    margin: 1vh 5vw;
+    border: 1px solid black;
+    gap: 60vw;
+}
+
+#searchbar{
+    padding-left: 0.1em;
+    filter: opacity(0.4);
+    border: 0.5em solid rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(8em); /* the glass effect */
+    -webkit-backdrop-filter: blur(8em); /* Safari support */
+    outline: none;
+    transition: all 500ms ease;
+}
+
+#searchButton{
+    height: 4vh;
+}
+
+.search-section>input{
+    width: 25vw;
+    border-radius: 0.5em;
+}
+
+button{
+    background-color: var(--btn-color);
+    font-family: var(--inter);
+    font-weight: bold;
+    height: 3em;
+    width: 10em;
+    border-radius: 5em;
+}
+
+main{
+    position: fixed;
+    top: 9vh;
+}
+
+#library{
+    position: fixed;
+    height: 85vh;
+    width: 20vw;
+    flex-direction: column;
+    overflow-y: hidden;
+    padding-bottom: 2vw;
+}
+
+#library-songs{
+    flex-direction: column;
+    gap: 1.5vh;
+}
+
+#song-section{
+    flex-flow: column;
+    width: 58vw;
+    height: 85vh;
+    margin-left: 20.5vw;
+}
+
+#Queue{
+    flex-direction: column;
+    width: 20vw;
+    height: 85vh;
+    margin-left: .5vw;
+    overflow-y: hidden;
+    overflow-x: hidden;
+    padding-bottom: 2vw;
+}
+
+#queue-songs{
+    flex-direction: column;
+    gap: 1.5vh;
+}
+
+.song-tiles:hover{
+    box-shadow: 0.2em 0.2em 0.5em gray;
+}
+
+#music-control{
+    flex-direction: column;
+    position: absolute;
+    bottom: 0;
+    margin: 0vh 19.47vw;
+    height: 11vh;
+    width: 60%;
+    border-top-left-radius: 5vw;
+    border-top-right-radius:5vw;
+    background: rgba(20, 20, 20, 0.95);
+    border: 0.2em solid #21446A;
+    border-bottom: none;
+    box-shadow: 0 0.2em 10em 1em rgba(10, 57, 145, 0.6);
+    padding-bottom: 2vh;
+    filter: opacity(0.8);
+}
+
+.playbar-icons:hover{
+    box-shadow:  0 0 1em rgba(0, 85, 239, 1);
+    filter: brightness(1.5);
+}
+
+#playing{
+    height: 5vh; 
+    width: 8vh;
+}

@@ -1,0 +1,232 @@
+/* Fonts available:
+    Inter
+    Manrope
+    Outfit
+    Poppins
+ */
+
+:root{
+    --fcw: white;
+    --fcg: gray;
+    --lightgrey: rgb(66, 65, 65);
+    --darkgrey: rgb(34, 33, 33);
+    --inter: 'Inter', serif;
+    --manrope: 'Manrope', serif;
+    --outfit: 'Outfit', serif;
+    --poppins: 'Poppins', serif;
+    --btn-color: white;
+}
+
+.filter{
+    filter: invert(1);
+}
+
+.svg-mid{
+    height: 6.2vh;
+}
+
+.flexbox{
+    display: flex;
+}
+
+.jcc{
+    justify-content: center;
+}
+
+.jcsb{
+    justify-content: space-between;
+}
+
+.jcsa{
+    justify-content: space-around;
+}
+
+.jcse{
+    justify-content: space-evenly;
+}
+
+.aic{
+    align-items: center;
+}
+
+.ais{
+    align-items: start;
+}
+
+.acc{
+    align-content: center;
+}
+
+.gray{
+    color: var(--fcg);
+}
+
+.white{
+    color: var(--fcw);
+}
+
+.grey-bg{
+    filter: invert(0.5);
+}
+
+.inter{
+    font-family: var(--inter);
+}
+
+.manrope{
+    font-family: var(--manrope);
+}
+
+.outfit{
+    font-family: var(--outfit);
+}
+
+.poppins{
+    font-family: var(--poppins);
+}
+
+.bold{
+    font-weight: bolder;
+}
+
+.right-header{
+    gap: 0.5vw;
+}
+
+.logo-hover:hover{
+    transition-duration: 450ms;
+    transform: scale(1.2);
+}
+
+.hover:hover{
+    transition-duration: 450ms;
+    transform: scale(1.1);
+}
+
+.text-hover:hover{
+    color: var(--fcw);
+    transition-duration: 500ms;
+}
+
+.grey-bg:hover{
+    filter: invert(1);
+}
+
+.border{
+    border-radius: 0.5em;
+}
+
+.side-heading{
+    position: fixed;
+    font-weight: 800;
+    font-size: larger;
+}
+
+
+.listed-side-songs{
+    position: relative;
+    top: 6vh;
+    padding: 1vw;
+    overflow-x: hidden;
+}
+
+.individual-scroll{
+    overflow-y: auto;
+    scrollbar-color: var(--lightgrey) var(--darkgrey);
+}
+
+.darkgrey-background{
+    background-color: var(--darkgrey);
+}
+
+.lightgrey-background{
+    background-color: var(--lightgrey);
+}
+
+.library-margin{
+    margin: 0.5em;
+}
+
+.library-padding{
+    padding: 0.5em;
+}
+
+.library-gap{
+    gap: 2vh 1.5vw;
+}
+
+.super-song-container{
+    margin: 0.5em;
+}
+
+.song-container{
+    font-weight:900;
+    font-size: x-large;
+    padding: 2vh 2vw;
+}
+
+.song-tiles{
+    flex-direction: column;
+    padding: 0.1em;
+    height: 10em;
+    width: 7.5em;
+}
+
+.song-name{
+    font-size: 16px;
+    font-weight: 400;
+    overflow: hidden;
+}
+
+.singers{
+    font-size: 14px;
+    font-weight: 300;
+    flex-wrap: wrap;
+    overflow: hidden;
+}
+
+.song-tile-images{
+    padding: 0.1em;
+    height: 6em;
+    width: 6.5em;
+}
+
+.songs-list{
+    padding: 1em 1em;
+    gap: 1.5vw;
+    overflow-x: auto;
+}
+
+.queue-song-image{
+    margin-left: 1vw;
+    height: 10vh;
+}
+
+.queue-song{
+    height: 11vh;
+    gap: 0.5em;
+}
+
+.queue-song:hover{
+    background-color: var(--lightgrey);
+    transition-duration: 500ms;
+}
+
+.playbar-icons{
+    background-color: white;
+    border-radius: 100%;
+    padding: 0.5em;
+    filter: brightness(0.5);
+    transition: filter 0.2s ease, transform 0.2s ease;
+    width: 2.5em;
+    height: 2.5em;
+}
+
+.song-controls{
+    gap: 0.2vw;
+    flex-direction: row;
+}
+
+.displayBar-playing{
+    gap: 0.5vw;
+}

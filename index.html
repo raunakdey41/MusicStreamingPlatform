@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="This is a Spotify clone. Users can browse their favourite songs and listen to them for free">
+    <title>Spotify Music</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/utilityclasses.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Manrope:wght@200..800&family=Outfit:wght@100..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- This is the header section i.e. the top part of the website -->
+
+    <header class="flexbox jcsb aic">
+
+        <!-- Comprises logo -->
+
+        <div class="left-header flexbox jcsb">
+            <img src="icons/guitar-icon.svg" alt="logo" class="svg-mid filter logo-hover" id="logo"> 
+        </div>
+
+        <!-- Comprises the search bar -->
+
+        <div class="right-header search-section flexbox jcsb">
+            <input type="text" placeholder="What do you want to play?" id="searchbar">
+            <img src="icons/searchbutton.svg" alt="search" class="svg-mid filter hover grey-bg" id="searchButton">
+        </div>
+
+    </header>
+
+    <!-- This is the main part of the clone -->
+
+    <main class="flexbox">
+
+        <!-- This is the library section  -->
+
+        <div class="flexbox white darkgrey-background border aic" id="library">
+
+            <!-- This is the library (playlist) that will be scrollable and having all the songs that the user has added -->
+
+            <div class="flexbox jcse inter bold library-padding side-heading" id="library-heading">
+                Your Library
+            </div>
+
+            <div class="library-margin library-padding flexbox library-gap listed-side-songs individual-scroll" id="library-songs">
+
+                <!-- Selected songs appear here -->
+                
+            </div>
+        </div>
+
+        <!-- Song section of the website -->
+
+        <div class="flexbox darkgrey-background white border" id="song-section">
+
+            <!-- Super container of the entire song section -->
+
+            <div class="super-song-container individual-scroll">
+
+                <!-- Container for the songs -->
+
+                <div id="trending" class="song-container">
+                    Trending Songs
+
+                    <!-- Tiles containing the songs -->
+
+                    <div class="flexbox songs-list">
+
+                        <div class="flexbox song-tiles border ais hover">
+                            <img src="Blackbg.jpeg" alt="Song poster" class="song-tile-images border">
+                            <p class="song-name manrope white">Lorem, ipsum.</p>
+                            <p class="singers gray flexbox jcsa aic singer-name">Lorem, ipsum.</p>
+                        </div>
+
+                        <div class="flexbox song-tiles border ais hover">
+                            <img src="Blackbg.jpeg" alt="Song poster" class="song-tile-images border">
+                            <p class="song-name manrope white">Lorem, ipsum.</p>
+                            <p class="singers gray flexbox jcsa aic singer-name">Lorem, ipsum.</p>
+                        </div>
+
+                        <div class="flexbox song-tiles border ais hover">
+                            <img src="Blackbg.jpeg" alt="Song poster" class="song-tile-images border">
+                            <p class="song-name manrope white">Lorem, ipsum.</p>
+                            <p class="singers gray flexbox jcsa aic singer-name">Lorem, ipsum.</p>
+                        </div>
+
+                        <div class="flexbox song-tiles border ais hover">
+                            <img src="Blackbg.jpeg" alt="Song poster" class="song-tile-images border">
+                            <p class="song-name manrope white">Lorem, ipsum.</p>
+                            <p class="singers gray flexbox jcsa aic singer-name">Lorem, ipsum.</p>
+                        </div>
+
+                        <div class="flexbox song-tiles border ais hover">
+                            <img src="Blackbg.jpeg" alt="Song poster" class="song-tile-images border">
+                            <p class="song-name manrope white">Lorem, ipsum.</p>
+                            <p class="singers gray flexbox jcsa aic singer-name">Lorem, ipsum.</p>
+                        </div>
+
+                        <div class="flexbox song-tiles border ais hover">
+                            <img src="Blackbg.jpeg" alt="Song poster" class="song-tile-images border">
+                            <p class="song-name manrope white">Lorem, ipsum.</p>
+                            <p class="singers gray flexbox jcsa aic singer-name">Lorem, ipsum.</p>
+                        </div>
+
+                        <div class="flexbox song-tiles border ais hover">
+                            <img src="Blackbg.jpeg" alt="Song poster" class="song-tile-images border">
+                            <p class="song-name manrope white">Lorem, ipsum.</p>
+                            <p class="singers gray flexbox jcsa aic singer-name">Lorem, ipsum.</p>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- Container for the songs -->
+
+                <div id="artists" class="song-container">
+                    Popular artists
+
+                    <!-- Tiles containing the songs -->
+
+                    <div class="flexbox songs-list">
+
+                        <div class="flexbox song-tiles border ais hover">
+                            <img src="Blackbg.jpeg" alt="Song poster" class="song-tile-images border">
+                            <p class="song-name manrope white">Lorem, ipsum.</p>
+                            <p class="singers gray flexbox jcsa aic singer-name">Lorem, ipsum.</p>
+                        </div>
+
+                        <div class="flexbox song-tiles border ais hover">
+                            <img src="Blackbg.jpeg" alt="Song poster" class="song-tile-images border">
+                            <p class="song-name manrope white">Lorem, ipsum.</p>
+                            <p class="singers gray flexbox jcsa aic singer-name">Lorem, ipsum.</p>
+                        </div>
+
+                        <div class="flexbox song-tiles border ais hover">
+                            <img src="Blackbg.jpeg" alt="Song poster" class="song-tile-images border">
+                            <p class="song-name manrope white">Lorem, ipsum.</p>
+                            <p class="singers gray flexbox jcsa aic singer-name">Lorem, ipsum.</p>
+                        </div>
+
+                        <div class="flexbox song-tiles border ais hover">
+                            <img src="Blackbg.jpeg" alt="Song poster" class="song-tile-images border">
+                            <p class="song-name manrope white">Lorem, ipsum.</p>
+                            <p class="singers gray flexbox jcsa aic singer-name">Lorem, ipsum.</p>
+                        </div>
+
+                        <div class="flexbox song-tiles border ais hover">
+                            <img src="Blackbg.jpeg" alt="Song poster" class="song-tile-images border">
+                            <p class="song-name manrope white">Lorem, ipsum.</p>
+                            <p class="singers gray flexbox jcsa aic singer-name">Lorem, ipsum.</p>
+                        </div>
+
+                        <div class="flexbox song-tiles border ais hover">
+                            <img src="Blackbg.jpeg" alt="Song poster" class="song-tile-images border">
+                            <p class="song-name manrope white">Lorem, ipsum.</p>
+                            <p class="singers gray flexbox jcsa aic singer-name">Lorem, ipsum.</p>
+                        </div>
+
+                        <div class="flexbox song-tiles border ais hover">
+                            <img src="Blackbg.jpeg" alt="Song poster" class="song-tile-images border">
+                            <p class="song-name manrope white">Lorem, ipsum.</p>
+                            <p class="singers gray flexbox jcsa aic singer-name">Lorem, ipsum.</p>
+                        </div>
+
+                    </div>
+                    
+                </div>
+
+                <!-- Container for the songs -->
+
+                <div id="albums" class="song-container">
+                    Popular albums and singles
+
+                    <!-- Tiles containing the songs -->
+
+                    <div class="flexbox songs-list">
+
+                        <div class="flexbox song-tiles border ais hover">
+                            <img src="Blackbg.jpeg" alt="Song poster" class="song-tile-images border">
+                            <p class="song-name manrope white">Lorem, ipsum.</p>
+                            <p class="singers gray flexbox jcsa aic singer-name">Lorem, ipsum.</p>
+                        </div>
+
+                        <div class="flexbox song-tiles border ais hover">
+                            <img src="Blackbg.jpeg" alt="Song poster" class="song-tile-images border">
+                            <p class="song-name manrope white">Lorem, ipsum.</p>
+                            <p class="singers gray flexbox jcsa aic singer-name">Lorem, ipsum.</p>
+                        </div>
+
+                        <div class="flexbox song-tiles border ais hover">
+                            <img src="Blackbg.jpeg" alt="Song poster" class="song-tile-images border">
+                            <p class="song-name manrope white">Lorem, ipsum.</p>
+                            <p class="singers gray flexbox jcsa aic singer-name">Lorem, ipsum.</p>
+                        </div>
+
+                        <div class="flexbox song-tiles border ais hover">
+                            <img src="Blackbg.jpeg" alt="Song poster" class="song-tile-images border">
+                            <p class="song-name manrope white">Lorem, ipsum.</p>
+                            <p class="singers gray flexbox jcsa aic singer-name">Lorem, ipsum.</p>
+                        </div>
+
+                        <div class="flexbox song-tiles border ais hover">
+                            <img src="Blackbg.jpeg" alt="Song poster" class="song-tile-images border">
+                            <p class="song-name manrope white">Lorem, ipsum.</p>
+                            <p class="singers gray flexbox jcsa aic singer-name">Lorem, ipsum.</p>
+                        </div>
+
+                        <div class="flexbox song-tiles border ais hover">
+                            <img src="Blackbg.jpeg" alt="Song poster" class="song-tile-images border">
+                            <p class="song-name manrope white">Lorem, ipsum.</p>
+                            <p class="singers gray flexbox jcsa aic singer-name">Lorem, ipsum.</p>
+                        </div>
+
+                        <div class="flexbox song-tiles border ais hover">
+                            <img src="Blackbg.jpeg" alt="Song poster" class="song-tile-images border">
+                            <p class="song-name manrope white">Lorem, ipsum.</p>
+                            <p class="singers gray flexbox jcsa aic singer-name">Lorem, ipsum.</p>
+                        </div>
+
+                    </div>
+
+                    
+                </div>
+
+                <!-- Container for the songs -->
+
+                <div id="featured" class="song-container">
+                    Featured Charts
+
+                    <!-- Tiles containing the songs -->
+
+                    <div class="flexbox songs-list">
+
+                        <div class="flexbox song-tiles border ais hover">
+                            <img src="Blackbg.jpeg" alt="Song poster" class="song-tile-images border">
+                            <p class="song-name manrope white">Lorem, ipsum.</p>
+                            <p class="singers gray flexbox jcsa aic singer-name">Lorem, ipsum.</p>
+                        </div>
+
+                        <div class="flexbox song-tiles border ais hover">
+                            <img src="Blackbg.jpeg" alt="Song poster" class="song-tile-images border">
+                            <p class="song-name manrope white">Lorem, ipsum.</p>
+                            <p class="singers gray flexbox jcsa aic singer-name">Lorem, ipsum.</p>
+                        </div>
+
+                        <div class="flexbox song-tiles border ais hover">
+                            <img src="Blackbg.jpeg" alt="Song poster" class="song-tile-images border">
+                            <p class="song-name manrope white">Lorem, ipsum.</p>
+                            <p class="singers gray flexbox jcsa aic singer-name">Lorem, ipsum.</p>
+                        </div>
+
+                        <div class="flexbox song-tiles border ais hover">
+                            <img src="Blackbg.jpeg" alt="Song poster" class="song-tile-images border">
+                            <p class="song-name manrope white">Lorem, ipsum.</p>
+                            <p class="singers gray flexbox jcsa aic singer-name">Lorem, ipsum.</p>
+                        </div>
+
+                        <div class="flexbox song-tiles border ais hover">
+                            <img src="Blackbg.jpeg" alt="Song poster" class="song-tile-images border">
+                            <p class="song-name manrope white">Lorem, ipsum.</p>
+                            <p class="singers gray flexbox jcsa aic singer-name">Lorem, ipsum.</p>
+                        </div>
+
+                        <div class="flexbox song-tiles border ais hover">
+                            <img src="Blackbg.jpeg" alt="Song poster" class="song-tile-images border">
+                            <p class="song-name manrope white">Lorem, ipsum.</p>
+                            <p class="singers gray flexbox jcsa aic singer-name">Lorem, ipsum.</p>
+                        </div>
+
+                        <div class="flexbox song-tiles border ais hover">
+                            <img src="Blackbg.jpeg" alt="Song poster" class="song-tile-images border">
+                            <p class="song-name manrope white">Lorem, ipsum.</p>
+                            <p class="singers gray flexbox jcsa aic singer-name">Lorem, ipsum.</p>
+                        </div>
+
+                    </div>
+                
+                </div>
+
+                <!-- Container for the songs -->
+
+                <div id="best" class="song-container">
+                    Best On List
+
+                    <!-- Tiles containing the songs -->
+
+                    <div class="flexbox songs-list">
+
+                        <div class="flexbox song-tiles border ais hover">
+                            <img src="Blackbg.jpeg" alt="Song poster" class="song-tile-images border">
+                            <p class="song-name manrope white">Lorem, ipsum.</p>
+                            <p class="singers gray flexbox jcsa aic singer-name">Lorem, ipsum.</p>
+                        </div>
+
+                        <div class="flexbox song-tiles border ais hover">
+                            <img src="Blackbg.jpeg" alt="Song poster" class="song-tile-images border">
+                            <p class="song-name manrope white">Lorem, ipsum.</p>
+                            <p class="singers gray flexbox jcsa aic singer-name">Lorem, ipsum.</p>
+                        </div>
+
+                        <div class="flexbox song-tiles border ais hover">
+                            <img src="Blackbg.jpeg" alt="Song poster" class="song-tile-images border">
+                            <p class="song-name manrope white">Lorem, ipsum.</p>
+                            <p class="singers gray flexbox jcsa aic singer-name">Lorem, ipsum.</p>
+                        </div>
+
+                        <div class="flexbox song-tiles border ais hover">
+                            <img src="Blackbg.jpeg" alt="Song poster" class="song-tile-images border">
+                            <p class="song-name manrope white">Lorem, ipsum.</p>
+                            <p class="singers gray flexbox jcsa aic singer-name">Lorem, ipsum.</p>
+                        </div>
+
+                        <div class="flexbox song-tiles border ais hover">
+                            <img src="Blackbg.jpeg" alt="Song poster" class="song-tile-images border">
+                            <p class="song-name manrope white">Lorem, ipsum.</p>
+                            <p class="singers gray flexbox jcsa aic singer-name">Lorem, ipsum.</p>
+                        </div>
+
+                        <div class="flexbox song-tiles border ais hover">
+                            <img src="Blackbg.jpeg" alt="Song poster" class="song-tile-images border">
+                            <p class="song-name manrope white">Lorem, ipsum.</p>
+                            <p class="singers gray flexbox jcsa aic singer-name">Lorem, ipsum.</p>
+                        </div>
+
+                        <div class="flexbox song-tiles border ais hover">
+                            <img src="Blackbg.jpeg" alt="Song poster" class="song-tile-images border">
+                            <p class="song-name manrope white">Lorem, ipsum.</p>
+                            <p class="singers gray flexbox jcsa aic singer-name">Lorem, ipsum.</p>
+                        </div>
+
+                    </div>
+                    
+                </div>
+
+            </div>
+        </div>
+
+        <!-- Queue section of the website -->
+
+        <div class="flexbox white darkgrey-background border aic" id="Queue">
+
+            <div class="flexbox jcse inter bold library-padding side-heading" id="queue-heading">
+                Upcoming Vibes
+            </div>
+
+            <div class="library-margin library-padding flexbox library-gap listed-side-songs individual-scroll" id="queue-songs">
+
+                <!-- Upcoming songs appear here and are dyanmically added via javascript -->
+                                
+            </div>
+
+        </div>
+    </main>
+
+    <!-- This is the footer section containing the play settings for a song and the display bar -->
+
+    <footer class="flexbox jcc aic" id="music-control">
+
+        <!-- Show or hide the music control bar -->
+
+        <div class="controlbar">
+            <img src="icons/displayBar.svg" alt="Show/Hide displayBar" class="svg-mid" id="display" title="Hide Bar">
+        </div>
+
+        <!-- Related to all controls of the song -->
+
+        <div class="library-gap flexbox jcc aic manrope">
+
+            <!-- Details of the song currently playing -->
+
+            <div class="flexbox displayBar-playing aic" id="displayBar-playing">
+                <img src="Blackbg.jpeg" alt="Currently playing" id="playing">
+                <div class="playing-details gray">
+                    <p class="text-hover" id="CurrentSong">Lorem, ipsum.</p>
+                    <p class="text-hover" id="CurrentSinger">Lorem ipsum dolor sit.</p>
+                </div>
+            </div>
+
+            <!-- Play settings for a song -->
+
+            <div class="play-settings song-controls flexbox jcc aic">
+                <img src="icons/prev-song.svg" alt="Play previous song" class="svg-mid playbar-icons" title="Previous song" id="prev-song">
+                <img src="icons/rewind-10-seconds.svg" alt="Rewind 10 seconds" class="svg-mid playbar-icons" title="Rewind">
+                <img src="icons/play.svg" alt="Play/Pause button" class="svg-mid playbar-icons" id="play">
+                <img src="icons/10-seconds-forward.svg" alt="Forward 10 seconds" class="svg-mid playbar-icons" title="Forward">
+                <img src="icons/next-song.svg" alt="Play next song" class="svg-mid playbar-icons" title="Next song" id="next-song">
+            </div>
+
+            <!-- Sound settings for the song -->
+
+            <div class="flexbox song-controls jcc aic">
+                <img src="icons/no-volume.svg" alt="Mute" class="svg-mid playbar-icons" title="Mute">
+                <img src="icons/volume-small.svg" alt="50% volume" class="svg-mid playbar-icons" title="Decrease Volume">
+                <img src="icons/volume-loud.svg" alt="100% volume" class="svg-mid playbar-icons" title="Increase Volume">
+            </div>
+
+            <!-- Add or remove from liked songs -->
+
+            <div class="flexbox song-controls jcc aic">
+                <img src="icons/add.svg" alt="Add to liked songs" class="svg-mid playbar-icons" title="Add to playlist">
+                <img src="icons/minus.svg" alt="Remove from liked songs" class="svg-mid playbar-icons" title="Remove from playlist">
+            </div>
+
+            <!-- Share button -->
+
+            <img src="icons/share.svg" alt="Share button" class="svg-mid playbar-icons" title="Share">
+        </div>
+
+    </footer>
+
+</body>
+    <script src="script.js"></script>
+</html>
