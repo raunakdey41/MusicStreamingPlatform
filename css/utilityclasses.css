@@ -245,3 +245,34 @@
 .currentText{
     font-size: 0.8em;
 }
+
+.popup {
+  position: absolute;
+  background-color: #ffffff;
+  border: 1px solid #ccc;
+  padding: 6px 10px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  border-radius: 6px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+  z-index: 1000;
+}
+
+.popup input {
+  border: none;
+  background: transparent;
+  outline: none;
+  font-size: 0.9em;
+  width: 200px;
+}
+
+.popup img {
+  cursor: pointer;
+  width: 18px;
+  height: 18px;
+}
+
+.hidden {
+  display: none;
+}

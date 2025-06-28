@@ -63,9 +63,12 @@ let singerNames = document.querySelectorAll(".singer-name") // Store arrays of t
 let songNames = document.querySelectorAll(".song-name"); // Store arrays of the song tiles
 let songTileImages = document.querySelectorAll(".song-tile-images"); // Store the images of the songs
 let queueTiles = document.querySelectorAll(".queue-song"); // Store the tiles of the queue
-
 let NextSongID; // To store the ID of the first song in the upcoming queue list
+let currentAudio = null; // To store the audio of the current song
+let currentSongID; // To store the ID of the current song
+
 const shareLink = {}; // To store the shareable link of the songs stored
+const songAudio = {}; // To store the audio tracks of the songs stored
 
 // Fetch songs from Jamendo as soon as window loads
 document.addEventListener("DOMContentLoaded", function(){
@@ -94,6 +97,7 @@ async function fetchMainSongs() {
 
         // Set the share link
         shareLink[song.id] = song.shareurl;
+        songAudio[song.id] = song["audio"];
     });
 }
 
@@ -208,14 +212,32 @@ async function fetchAlbumSongs(artist_name) {
 }
 
 // Toggling between play and pause for songs
-playPause.addEventListener("click", function(){
+function playPauseSong(){
+    if(!currentSongID)
+        return; // No song selected
+
+    const songSrc = songAudio[currentSongID];
+
+    // In case of playing a new song
+    
+    if(!currentAudio || currentAudio.src != songSrc){
+        if(currentAudio)
+            currentAudio.pause();
+        currentAudio = new Audio(songSrc);
+    }
+
     currentState = playPause.getAttribute("src");
-    if(currentState.includes("icons/play.svg"))
+
+    if(currentState.includes("play")){
+        currentAudio.pause();
         playPause.setAttribute("src", "icons/pause.svg");
-    else
+    }
+    else{
+        currentAudio.play();
         playPause.setAttribute("src", "icons/play.svg");
-    currentState = "";
-});
+    }
+}
+playPause.addEventListener("click", playPauseSong);
 
 // Toggling between show and hide for the display bar
 displayBar.addEventListener("click", function(){
@@ -271,6 +293,7 @@ displayBar.addEventListener("click", function(){
 document.querySelectorAll(".selected").forEach(tile =>{
     tile.addEventListener("click", function(){
         const songId = tile.getAttribute("id"); // ID of the song selected
+        currentSongID = songId;
 
         let songName, songArtist, songImage;
         const childNodes = tile.childNodes;
@@ -305,14 +328,103 @@ document.querySelectorAll(".selected").forEach(tile =>{
         currentSong.textContent = songName;
         currentSinger.textContent = songArtist;
 
+        // Playing the song immediately on selection
+
+        if(currentAudio)
+            currentAudio.pause(); // Pause any previous song if any
+
+        const songSrc = songAudio[currentSongID];
+        currentAudio = new Audio(songSrc);
+        currentAudio.play();
+
         document.getElementById("library-heading").textContent = `More from ${songArtist}`;
         document.getElementById("queue-heading").textContent = "Upcoming Vibes";
         setTimeout(fetchQueueSongs, 1000);
         setTimeout(fetchAlbumSongs,1000,songArtist);
 
-        document.getElementById("share").addEventListener("click", function(){
-            alert(shareLink[songId]);
+        // Generating the share link for the song playing
+
+        document.getElementById("share").addEventListener("click", function () {
+            const link = shareLink[songId];
+
+            // Remove any existing popup
+            const existing = document.getElementById("share-popup");
+            if (existing) 
+                existing.remove();
+
+            // Create popup div comprising the link and copy icon
+            const show = document.createElement("div");
+            show.id = "share-popup";
+
+            show.style.cssText =
+            `position: absolute;
+            background-color: #fff;
+            border: 1px solid #ccc;
+            padding: 6px 10px;
+            border-radius: 6px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            z-index: 1000;
+            `
+
+            // Create input with link
+            const input = document.createElement("input");
+            input.type = "text";
+            input.value = link;
+            input.readOnly = true;
+
+            input.style.cssText =
+            `border: none;
+            background: transparent;
+            outline: none;
+            width: 10vw;
+            font-size: 1em;
+            `
+            input.addEventListener("click", () => input.select());
+
+            // Create copy icon for the link
+            const copy = document.createElement("img");
+            copy.src = "icons/copy-icon.svg";
+            copy.alt = "Copy";
+            copy.title = "Copy Link";
+
+            copy.style.cssText = 
+            `width: 1em;
+            height: 1em;
+            cursor: pointer
+            `
+            copy.addEventListener("click", () => {
+                navigator.clipboard.writeText(link)
+                    .then(() => {
+                        copy.title = "Copied to clipboard";
+                        setTimeout(() => copy.title = "Copy Link", 2000);
+                    })
+                    .catch(() => {
+                        copy.title = "Failed!";
+                    });
+            });
+
+            // Append input and icon
+            show.appendChild(input);
+            show.appendChild(copy);
+            document.body.appendChild(show);
+
+            // Position popup above the share icon
+            const rect = this.getBoundingClientRect();
+            show.style.top = `${rect.top + window.scrollY - 40}px`;  // 40px above
+            show.style.left = `${rect.left + window.scrollX}px`;
+
+            // Close if user clicks outside
+            document.addEventListener("click", function outsideClick(e) {
+                if (!show.contains(e.target) && e.target !== document.getElementById("share")) {
+                    show.remove();
+                    document.removeEventListener("click", outsideClick);
+                }
+            });
         });
+
     });
 })
 
