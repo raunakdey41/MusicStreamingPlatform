@@ -1,7 +1,8 @@
 :root{
-    --bg-color: rgb(46, 45, 45);
-    --fcw: white;
+     --fcw: white;
     --fcg: gray;
+    --lightgrey: rgb(66, 65, 65);
+    --darkgrey: rgb(34, 33, 33);
     --inter: 'Inter', serif;
     --manrope: 'Manrope', serif;
     --outfit: 'Outfit', serif;
@@ -64,12 +65,17 @@ main{
 }
 
 #library{
-    position: fixed;
-    height: 85vh;
-    width: 20vw;
     flex-direction: column;
+    width: 20vw;
+    height: 85vh;
+    position: fixed;
     overflow-y: hidden;
+    overflow-x: hidden;
     padding-bottom: 2vw;
+}
+
+#library-heading{
+    flex-wrap: wrap;
 }
 
 #library-songs{
@@ -100,12 +106,12 @@ main{
 }
 
 .song-tiles:hover{
-    box-shadow: 0.2em 0.2em 0.5em gray;
+    background-color: var(--lightgrey);
 }
 
 #music-control{
     flex-direction: column;
-    position: absolute;
+    position: fixed;
     bottom: 0;
     margin: 0vh 19.47vw;
     height: 11vh;

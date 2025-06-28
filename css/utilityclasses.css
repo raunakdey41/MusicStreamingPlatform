@@ -125,7 +125,7 @@
 
 .listed-side-songs{
     position: relative;
-    top: 6vh;
+    top: 8vh;
     padding: 1vw;
     overflow-x: hidden;
 }
@@ -212,6 +212,17 @@
     transition-duration: 500ms;
 }
 
+.side-icon{
+    height: 15vh;
+    filter: invert(0.5);
+}
+
+.sideBarDisplay{
+    flex-direction: column;
+    text-align: center;
+    gap: 1.5vw;
+}
+
 .playbar-icons{
     background-color: white;
     border-radius: 100%;
@@ -232,5 +243,5 @@
 }
 
 .currentText{
-    font-size: 0.7em;
+    font-size: 0.8em;
 }

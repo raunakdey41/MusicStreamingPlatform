@@ -46,7 +46,7 @@ const musicTags = [
 
 const main_url = `https://api.jamendo.com/v3.0/tracks/?client_id=${id}&format=json&limit=35&search=${musicTags[Math.ceil(Math.random()*35)]}` // URL to fetch songs for the main section
 
-const queue_url = `https://api.jamendo.com/v3.0/tracks/?client_id=${id}&format=json&limit=20&search=${musicTags[Math.floor(Math.random()*15)]}`// URL to fetch songs for the queue section
+const queue_url = `https://api.jamendo.com/v3.0/tracks/?client_id=${id}&format=json&limit=10&search=${musicTags[Math.floor(Math.random()*15)]}`// URL to fetch songs for the queue section
 
 // Storage variables for the display bar items
 
@@ -64,6 +64,9 @@ let songNames = document.querySelectorAll(".song-name"); // Store arrays of the 
 let songTileImages = document.querySelectorAll(".song-tile-images"); // Store the images of the songs
 let queueTiles = document.querySelectorAll(".queue-song"); // Store the tiles of the queue
 
+let NextSongID; // To store the ID of the first song in the upcoming queue list
+const shareLink = {}; // To store the shareable link of the songs stored
+
 // Fetch songs from Jamendo as soon as window loads
 document.addEventListener("DOMContentLoaded", function(){
     fetchMainSongs();
@@ -75,7 +78,6 @@ async function fetchMainSongs() {
     let fetchedMainsongs = await fetch(main_url);
     fetchedMainsongs = await fetchedMainsongs.json();
     const content = fetchedMainsongs.results;
-
 
     console.log(content);
 
@@ -89,8 +91,10 @@ async function fetchMainSongs() {
         // Set song name and artist name
         songNames[index].textContent = song.name;
         singerNames[index].textContent = song.artist_name;
-    });
 
+        // Set the share link
+        shareLink[song.id] = song.shareurl;
+    });
 }
 
 // Fetch songs from Jamendo only for the queue section
@@ -107,7 +111,7 @@ async function fetchQueueSongs() {
     content.forEach(song => {
         // Create the tile container
         const tile = document.createElement("div");
-        tile.className = "queue-song flexbox border manrope";
+        tile.className = "queue-song flexbox border manrope selected";
         tile.setAttribute("id", song.id);
 
         // Create and set up the image
@@ -141,6 +145,65 @@ async function fetchQueueSongs() {
 
         // Finally, append tile to the main container
         queueContainer.appendChild(tile);
+    });
+
+    NextSongID = queueContainer.firstChild.getAttribute("id");
+}
+
+// Fetch songs from Jamendo only for the album(library) section
+async function fetchAlbumSongs(artist_name) {
+
+    const album_url = `https://api.jamendo.com/v3.0/tracks/?client_id=${id}&format=json&limit=10&search=${artist_name}`// URL to fetch songs for the album section
+
+    let fetchedAlbumsongs = await fetch(album_url);
+
+    fetchAlbumSongs = await fetchedAlbumsongs.json();
+    const content = fetchAlbumSongs.results;
+
+    const queueContainer = document.getElementById("library-songs");
+
+    queueContainer.innerHTML = ""; // Clear previous content if needed
+
+    content.forEach(song => {
+
+        if(song.artist_name === artist_name){
+            // Create the tile container
+            const tile = document.createElement("div");
+            tile.className = "queue-song flexbox border manrope selected";
+            tile.setAttribute("id", song.id);
+
+            // Create and set up the image
+            const image = document.createElement("img");
+            image.className = "queue-song-image border";
+            image.setAttribute("src", song.image);
+            image.setAttribute("alt", "Upcoming song");
+
+            // Create the details container
+            const details = document.createElement("div");
+            details.className = "queue-song-details";
+
+            // Create and set song name
+            const songName = document.createElement("p");
+            songName.className = "queue-song-name white";
+            songName.textContent = song.name;
+
+            // Create and set artist name
+            const artistName = document.createElement("p");
+            artistName.className = "queue-singer-name gray";
+            artistName.textContent = song.artist_name;
+
+            // Append name and artist to details container
+            details.appendChild(songName);
+            details.appendChild(artistName);
+            details.style.overflow = "hidden";
+
+            // Append image and details to tile
+            tile.appendChild(image);
+            tile.appendChild(details);
+
+            // Finally, append tile to the main container
+            queueContainer.appendChild(tile);
+        }
     });
 }
 
@@ -204,36 +267,31 @@ displayBar.addEventListener("click", function(){
     }
 });
 
-
-for(let tile of songTiles){
+// Selecting the song to be played and its after events
+document.querySelectorAll(".selected").forEach(tile =>{
     tile.addEventListener("click", function(){
         const songId = tile.getAttribute("id"); // ID of the song selected
 
         let songName, songArtist, songImage;
         const childNodes = tile.childNodes;
+
         songImage = childNodes[1].getAttribute("src"); //Image of the song
         songName = childNodes[3].textContent; // Name of the song
         songArtist = childNodes[5].textContent; // Singer of the song
-        
-        document.getElementById("displayBar-playing").style.cssText =
-        `
-        display: flex;
-        width: 30vh;
-        height: 5vh;
-        `;
 
-        document.getElementById("playing").style.width = "10vh"
-
-        document.getElementById("CurrentSong").style.cssText=
-        `
-        height: 2vh;
-        overflow: hidden;
-        `
-        document.getElementById("CurrentSinger").style.cssText=
-        `
-        height: 2vh;
-        overflow: hidden;
-        `
+        if (displayBar.getAttribute("title") === "Hide Bar") {
+            document.getElementById("displayBar-playing").style.cssText =
+            `display: flex;
+            width: 30vh;
+            height: 5vh;`;
+            document.getElementById("playing").style.width = "10vh"
+            document.getElementById("CurrentSong").style.cssText=
+            `height: 2vh;
+            overflow: hidden;`
+            document.getElementById("CurrentSinger").style.cssText=
+            `height: 2vh;
+            overflow: hidden;`
+        }
 
         // Assigning the values to the footer container
 
@@ -242,12 +300,20 @@ for(let tile of songTiles){
         const currentSong = document.getElementById("CurrentSong");
         const currentSinger = document.getElementById("CurrentSinger");
 
-        current.setAttribute("id", songId);       currentSongImage.setAttribute("src", songImage);
+        current.setAttribute("id", songId);
+        currentSongImage.setAttribute("src", songImage);
         currentSong.textContent = songName;
         currentSinger.textContent = songArtist;
 
+        document.getElementById("library-heading").textContent = `More from ${songArtist}`;
+        document.getElementById("queue-heading").textContent = "Upcoming Vibes";
         setTimeout(fetchQueueSongs, 1000);
+        setTimeout(fetchAlbumSongs,1000,songArtist);
+
+        document.getElementById("share").addEventListener("click", function(){
+            alert(shareLink[songId]);
+        });
     });
-}
+})
 
 // songs [id], [image], [album-name], [artist-name]
