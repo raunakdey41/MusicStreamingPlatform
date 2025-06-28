@@ -170,6 +170,7 @@
     padding: 0.1em;
     height: 10em;
     width: 7.5em;
+    flex-wrap: wrap;
 }
 
 .song-name{

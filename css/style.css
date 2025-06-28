@@ -27,8 +27,11 @@ header{
     position: fixed;
     height: 8vh;
     margin: 1vh 5vw;
-    border: 1px solid black;
-    gap: 60vw;
+    gap: 55vw;
+}
+
+#dropdown{
+    width: 8vw;
 }
 
 #searchbar{
@@ -124,6 +127,11 @@ main{
     box-shadow: 0 0.2em 1em 0.1em #566c83;
     padding-bottom: 2vh;
     filter: opacity(0.8);
+    backdrop-filter: blur(1px);
+}
+
+#display{
+    filter: invert(0.3);
 }
 
 .playbar-icons:hover{

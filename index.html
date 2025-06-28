@@ -25,6 +25,12 @@
         <!-- Comprises the search bar -->
 
         <div class="right-header search-section flexbox jcsb">
+            <select id="dropdown" class="border">
+                <option value="artist">Artist</option>
+                <option value="album">Album</option>
+                <option value="genre">Genre</option>
+                <option value="track">Track</option>
+            </select>
             <input type="text" placeholder="What do you want to play?" id="searchbar">
             <img src="icons/searchbutton.svg" alt="search" class="svg-mid filter hover grey-bg" id="searchButton">
         </div>
@@ -52,8 +58,8 @@
                 <!-- Songs appear here after getting added from Jamendo -->
 
                 <div class="gray manrope flexbox jcc aic sideBarDisplay">
-                    <img src="icons/albumIcon.svg" alt="album" class="side-icon">
-                    <div class="gray manrope">More songs from the same album appear here</div>
+                    <img src="icons/music-artist.svg" alt="album" class="side-icon">
+                    <div class="gray manrope">More songs from the same artist appear here</div>
                 </div>
                 
             </div>
@@ -360,7 +366,7 @@
                 <!-- Upcoming songs appear here and are dyanmically added via javascript -->
 
                 <div class="gray manrope flexbox jcc aic sideBarDisplay">
-                    <img src="icons/upcomingSong.svg" alt="album" class="side-icon">
+                    <img src="icons/music-album.svg" alt="album" class="side-icon">
                     <div class="gray manrope">Upcoming songs appear here</div>
                 </div>
                                 

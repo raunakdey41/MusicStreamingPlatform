@@ -46,11 +46,13 @@ const musicTags = [
 
 const main_url = `https://api.jamendo.com/v3.0/tracks/?client_id=${id}&format=json&limit=35&search=${musicTags[Math.ceil(Math.random()*35)]}` // URL to fetch songs for the main section
 
-const queue_url = `https://api.jamendo.com/v3.0/tracks/?client_id=${id}&format=json&limit=10&search=${musicTags[Math.floor(Math.random()*15)]}`// URL to fetch songs for the queue section
+const queue_url = `https://api.jamendo.com/v3.0/tracks/?client_id=${id}&format=json&limit=20&search=${musicTags[Math.floor(Math.random()*15)]}`// URL to fetch songs for the queue section
 
 // Storage variable for the searchbar
 
+let dropdown = document.getElementById("dropdown"); // To store the dropdown elements
 let searchBar = document.getElementById("searchbar"); // To store the input and appearance of search bar
+const searchButton = document.getElementById("searchButton"); // To store the search button 
 
 // Storage variables for the display bar items
 
@@ -61,6 +63,7 @@ let playPause = document.getElementById("play"); // Play button on the media con
 
 // Arrays for the song and its components
 
+// let selected = document.getElementsByClassName("selected"); // To store the tiles of all the songs in the webpage
 let songContainer = document.querySelectorAll(".song-container"); // Store the entire box of songs
 let songTiles = document.querySelectorAll(".song-tiles") // Store arrays for the entire tiles
 let singerNames = document.querySelectorAll(".singer-name") // Store arrays of the singers' name
@@ -158,10 +161,10 @@ async function fetchQueueSongs() {
     NextSongID = queueContainer.firstChild.getAttribute("id");
 }
 
-// Fetch songs from Jamendo only for the album(library) section
+// Fetch songs from Jamendo only for the artist(library) section
 async function fetchAlbumSongs(artist_name) {
 
-    const album_url = `https://api.jamendo.com/v3.0/tracks/?client_id=${id}&format=json&limit=10&search=${artist_name}`// URL to fetch songs for the album section
+    const album_url = `https://api.jamendo.com/v3.0/tracks/?client_id=${id}&format=json&limit=20&search=${artist_name}`// URL to fetch songs for the artist section
 
     let fetchedAlbumsongs = await fetch(album_url);
 
@@ -221,11 +224,20 @@ searchBar.addEventListener("mouseover", function(){
     `filter: opacity(1);
     `
 });
+searchBar.addEventListener("keydown", function(){
+    searchBar.style.cssText =
+    `filter: opacity(1);
+    `
+});
 searchBar.addEventListener("mouseleave", function(){
     searchBar.style.cssText =
     `filter: opacity(0.4);
     `
 });
+
+searchButton.addEventListener("click", function(){
+    const searchValue = searchBar.value
+})
 
 // Toggling between play and pause for songs
 function playPauseSong(){
