@@ -48,11 +48,15 @@ const main_url = `https://api.jamendo.com/v3.0/tracks/?client_id=${id}&format=js
 
 const queue_url = `https://api.jamendo.com/v3.0/tracks/?client_id=${id}&format=json&limit=10&search=${musicTags[Math.floor(Math.random()*15)]}`// URL to fetch songs for the queue section
 
+// Storage variable for the searchbar
+
+let searchBar = document.getElementById("searchbar"); // To store the input and appearance of search bar
+
 // Storage variables for the display bar items
 
-let currentState; //To access the current state of any attribute
-let displayBar = document.getElementById("display"); //The dash sign for showing/hiding the bar
-let bar = document.getElementById("music-control");//The footer section
+let currentState; // To access the current state of any attribute
+let displayBar = document.getElementById("display"); // The dash sign for showing/hiding the bar
+let bar = document.getElementById("music-control");// The footer section
 let playPause = document.getElementById("play"); // Play button on the media control bar
 
 // Arrays for the song and its components
@@ -210,6 +214,18 @@ async function fetchAlbumSongs(artist_name) {
         }
     });
 }
+
+// Handling the searchbar
+searchBar.addEventListener("mouseover", function(){
+    searchBar.style.cssText =
+    `filter: opacity(1);
+    `
+});
+searchBar.addEventListener("mouseleave", function(){
+    searchBar.style.cssText =
+    `filter: opacity(0.4);
+    `
+});
 
 // Toggling between play and pause for songs
 function playPauseSong(){
@@ -427,5 +443,3 @@ document.querySelectorAll(".selected").forEach(tile =>{
 
     });
 })
-
-// songs [id], [image], [album-name], [artist-name]
