@@ -110,8 +110,9 @@ async function fetchMainSongs() {
 
 // Fetch songs from Jamendo only for the queue section
 async function fetchQueueSongs() {
-    let fetchedQueuesongs = await fetch(queue_url);
+    document.getElementById("queue-heading").textContent = "Upcoming Tracks";
 
+    let fetchedQueuesongs = await fetch(queue_url);
     fetchedQueuesongs = await fetchedQueuesongs.json();
     const content = fetchedQueuesongs.results;
 
@@ -163,11 +164,10 @@ async function fetchQueueSongs() {
 
 // Fetch songs from Jamendo only for the artist(library) section
 async function fetchAlbumSongs(artist_name) {
+    document.getElementById("library-heading").textContent = `More from ${artist_name}`;
 
     const album_url = `https://api.jamendo.com/v3.0/tracks/?client_id=da69b01d&format=json&limit=20&search=${artist_name}`// URL to fetch songs for the artist section
-
     let fetchedAlbumsongs = await fetch(album_url);
-
     fetchAlbumSongs = await fetchedAlbumsongs.json();
     const content = fetchAlbumSongs.results;
 
@@ -385,10 +385,8 @@ document.querySelectorAll(".selected").forEach(tile =>{
         currentAudio = new Audio(songSrc);
         currentAudio.play();
 
-        document.getElementById("library-heading").textContent = `More from ${songArtist}`;
-        document.getElementById("queue-heading").textContent = "Upcoming Tracks";
-        setTimeout(fetchQueueSongs, 1000);
-        setTimeout(fetchAlbumSongs,1000,songArtist);
+        setTimeout(fetchAlbumSongs,500,songArtist);
+        setTimeout(fetchQueueSongs, 1500);
 
         // Generating the share link for the song playing
 
