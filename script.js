@@ -57,7 +57,7 @@ const searchButton = document.getElementById("searchButton"); // To store the se
 // Storage variables for the display bar items
 
 let currentState; // To access the current state of any attribute
-let displayBar = document.getElementById("display"); // The dash sign for showing/hiding the bar
+let displayBar = document.getElementById("display"); // The sign for showing/hiding the bar
 let bar = document.getElementById("music-control");// The footer section
 let playPause = document.getElementById("play"); // Play button on the media control bar
 
@@ -235,6 +235,23 @@ searchBar.addEventListener("mouseleave", function(){
     `
 });
 
+//Handling the dropdown menu
+dropdown.addEventListener("click", function(){
+    dropdown.style.cssText =
+    `filter: opacity(1);
+    `
+});
+dropdown.addEventListener("mouseover", function(){
+    dropdown.style.cssText =
+    `filter: opacity(1);
+    `
+});
+dropdown.addEventListener("mouseleave", function(){
+    dropdown.style.cssText =
+    `filter: opacity(0.4);
+    `
+});
+
 searchButton.addEventListener("click", function(){
     const searchValue = searchBar.value
 })
@@ -277,6 +294,7 @@ displayBar.addEventListener("click", function(){
     if (currentState.includes("Hide")) {
         bar.style.height = "4vh";
         displayBar.setAttribute("title", "Show Bar");
+        displayBar.setAttribute("src", "icons/arrow-up.svg");
         for(let i = 0; i < playBarIcons.length; i++){
             playBarIcons[i].style.cssText = 
             `
@@ -298,6 +316,7 @@ displayBar.addEventListener("click", function(){
     else{
         bar.style.height = "11vh";
         displayBar.setAttribute("title", "Hide Bar");
+        displayBar.setAttribute("src", "icons/arrow-down.svg");
         for(let i = 0; i < playBarIcons.length; i++){
             playBarIcons[i].style.cssText = 
             `
@@ -366,7 +385,7 @@ document.querySelectorAll(".selected").forEach(tile =>{
         currentAudio.play();
 
         document.getElementById("library-heading").textContent = `More from ${songArtist}`;
-        document.getElementById("queue-heading").textContent = "Upcoming Vibes";
+        document.getElementById("queue-heading").textContent = "Upcoming Tracks";
         setTimeout(fetchQueueSongs, 1000);
         setTimeout(fetchAlbumSongs,1000,songArtist);
 

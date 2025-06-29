@@ -34,16 +34,6 @@ header{
     width: 8vw;
 }
 
-#searchbar{
-    padding-left: 0.1em;
-    filter: opacity(0.4);
-    border: 0.5em solid rgba(255, 255, 255, 0.2);
-    backdrop-filter: blur(8em); /* the glass effect */
-    -webkit-backdrop-filter: blur(8em); /* Safari support */
-    outline: none;
-    transition: all 500ms ease;
-}
-
 #searchButton{
     height: 4vh;
 }
@@ -116,18 +106,17 @@ main{
     flex-direction: column;
     position: fixed;
     bottom: 0;
-    margin: 0vh 19.47vw;
+    margin: 0vh 5vw;
     height: 11vh;
-    width: 60%;
+    width: 90%;
     border-top-left-radius: 5vw;
     border-top-right-radius:5vw;
     background: rgba(20, 20, 20, 0.95);
     border: 0.2em solid #566c83;
     border-bottom: none;
     box-shadow: 0 0.2em 1em 0.1em #566c83;
-    padding-bottom: 2vh;
     filter: opacity(0.8);
-    backdrop-filter: blur(1px);
+    backdrop-filter: blur(8px);
 }
 
 #display{
@@ -142,4 +131,23 @@ main{
 #playing{
     height: 5vh; 
     width: 8vh;
+}
+
+#adjust{
+    flex-direction: column;
+    width: 70%;
+    row-gap: 1px;
+}
+
+#seekbar{
+    height: 2px;
+    width: 100%;
+    background-color: aliceblue;
+}
+
+#circle-cursor{
+    border-radius: 100%;
+    height: 2px;
+    width: 2px;
+    background-color: red;
 }

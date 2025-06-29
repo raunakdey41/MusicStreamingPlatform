@@ -21,6 +21,10 @@
     filter: invert(1);
 }
 
+.svg-small{
+    height: 4vh;
+}
+
 .svg-mid{
     height: 6.2vh;
 }
@@ -96,11 +100,27 @@
 .logo-hover:hover{
     transition-duration: 450ms;
     transform: scale(1.2);
+    cursor: pointer;
 }
+
+.search-control{
+    padding-left: 0.1em;
+    filter: opacity(0.4);
+    border: 0.5em solid rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(8em); /* the glass effect */
+    -webkit-backdrop-filter: blur(8em); /* Safari support */
+    outline: none;
+    transition: all 500ms ease;
+}
+
+ .dropdown-value:hover{
+    cursor: pointer;
+ }
 
 .hover:hover{
     transition-duration: 450ms;
     transform: scale(1.1);
+    cursor: pointer;
 }
 
 .text-hover:hover{
@@ -211,6 +231,7 @@
 .queue-song:hover{
     background-color: var(--lightgrey);
     transition-duration: 500ms;
+    cursor: pointer;
 }
 
 .side-icon{
