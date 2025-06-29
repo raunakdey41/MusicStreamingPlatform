@@ -288,23 +288,18 @@ playPause.addEventListener("click", playPauseSong);
 displayBar.addEventListener("click", function(){
     currentState = displayBar.getAttribute("title"); //Current condition of the display bar
 
-    let playBarIcons = document.getElementsByClassName("playbar-icons");
-    let playbarHide = document.getElementsByClassName("playbar-hide");
+    let playBarElements = document.getElementsByClassName("dp-bar-elements");
+    console.log(playBarElements);
+
+    // let playBarIcons = document.getElementsByClassName("playbar-icons");
+    // let playbarHide = document.getElementsByClassName("playbar-hide");
 
     if (currentState.includes("Hide")) {
         bar.style.height = "4vh";
         displayBar.setAttribute("title", "Show Bar");
         displayBar.setAttribute("src", "icons/arrow-up.svg");
-        for(let i = 0; i < playBarIcons.length; i++){
-            playBarIcons[i].style.cssText = 
-            `
-            width: 0;
-            height: 0; 
-            display: none;
-            `
-        }
-        for(let i = 0; i < playbarHide.length; i++){
-            playbarHide[i].style.cssText = 
+        for(let i = 0; i < playBarElements.length; i++){
+            playBarElements[i].style.cssText = 
             `
             width: 0;
             height: 0; 
@@ -317,18 +312,11 @@ displayBar.addEventListener("click", function(){
         bar.style.height = "11vh";
         displayBar.setAttribute("title", "Hide Bar");
         displayBar.setAttribute("src", "icons/arrow-down.svg");
-        for(let i = 0; i < playBarIcons.length; i++){
-            playBarIcons[i].style.cssText = 
-            `
-            width: 2.5em;
-            height: 2.5em;
-            `
-        }
-        for(let i = 0; i < playbarHide.length; i++){
-            playbarHide[i].style.cssText = 
+        for(let i = 0; i < playBarElements.length; i++){
+            playBarElements[i].style.cssText = 
             `
             width: "";
-            height: ""; 
+            height: "";
             display: "";
             `
         }

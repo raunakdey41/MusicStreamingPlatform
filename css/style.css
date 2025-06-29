@@ -27,7 +27,7 @@ header{
     position: fixed;
     height: 8vh;
     margin: 1vh 5vw;
-    gap: 55vw;
+    gap: 50vw;
 }
 
 #dropdown{
@@ -119,6 +119,10 @@ main{
     backdrop-filter: blur(8px);
 }
 
+#soundShare{
+    gap: 1vh;
+}
+
 #display{
     filter: invert(0.3);
 }
@@ -134,20 +138,41 @@ main{
 }
 
 #adjust{
+    gap: 0.3vh;
+    position: relative;
     flex-direction: column;
-    width: 70%;
-    row-gap: 1px;
+    width: 60%;
+    bottom: 0.5vh;
+}
+
+#musicSeekBar{
+    height: 0.3vh;
+    width: 15vh;
+    background-color: aliceblue;
+}
+
+#musicCircleCursor{
+    cursor: pointer;
+    position: relative;
+    bottom: 0.35vh;
+    border-radius: 100%;
+    height: 1vh;
+    width: 1vh;
+    background-color: red;
 }
 
 #seekbar{
-    height: 2px;
-    width: 100%;
+    height: 0.3vh;
+    width: 120%;
     background-color: aliceblue;
 }
 
 #circle-cursor{
+    cursor: pointer;
+    position: relative;
+    bottom: 0.35vh;
     border-radius: 100%;
-    height: 2px;
-    width: 2px;
+    height: 1vh;
+    width: 1vh;
     background-color: red;
 }
