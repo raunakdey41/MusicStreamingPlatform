@@ -1,5 +1,3 @@
-const id = "da69b01d"; // Private ID
-
 // A set of commonly used music tags
 const musicTags = [
   // Core genres
@@ -44,9 +42,8 @@ const musicTags = [
   "hozier", "lewis capaldi", "sigrid", "aurora"
 ];
 
-const main_url = `https://api.jamendo.com/v3.0/tracks/?client_id=${id}&format=json&limit=35&search=${musicTags[Math.ceil(Math.random()*35)]}` // URL to fetch songs for the main section
-
-const queue_url = `https://api.jamendo.com/v3.0/tracks/?client_id=${id}&format=json&limit=20&search=${musicTags[Math.floor(Math.random()*15)]}`// URL to fetch songs for the queue section
+const main_url = `https://api.jamendo.com/v3.0/tracks/?client_id=da69b01d&format=json&limit=35&search=${musicTags[Math.ceil(Math.random()*35)]}` // URL to fetch songs for the main section
+const queue_url = `https://api.jamendo.com/v3.0/tracks/?client_id=da69b01d&format=json&limit=20&search=${musicTags[Math.floor(Math.random()*15)]}`// URL to fetch songs for the queue section
 
 // Storage variable for the searchbar
 
@@ -61,7 +58,10 @@ let displayBar = document.getElementById("display"); // The sign for showing/hid
 let bar = document.getElementById("music-control");// The footer section
 let playPause = document.getElementById("play"); // Play button on the media control bar
 
-// Arrays for the song and its components
+// Storage variables for volume
+
+let musicCursor = document.getElementById("musicCircleCursor"); // To store the cursor
+let volumeIcon = document.getElementById("VolumeIcon"); // TO store the volume icon and change it
 
 // let selected = document.getElementsByClassName("selected"); // To store the tiles of all the songs in the webpage
 let songContainer = document.querySelectorAll(".song-container"); // Store the entire box of songs
@@ -164,7 +164,7 @@ async function fetchQueueSongs() {
 // Fetch songs from Jamendo only for the artist(library) section
 async function fetchAlbumSongs(artist_name) {
 
-    const album_url = `https://api.jamendo.com/v3.0/tracks/?client_id=${id}&format=json&limit=20&search=${artist_name}`// URL to fetch songs for the artist section
+    const album_url = `https://api.jamendo.com/v3.0/tracks/?client_id=da69b01d&format=json&limit=20&search=${artist_name}`// URL to fetch songs for the artist section
 
     let fetchedAlbumsongs = await fetch(album_url);
 
@@ -218,7 +218,7 @@ async function fetchAlbumSongs(artist_name) {
     });
 }
 
-// Handling the searchbar
+// Handling the searchbar appearance
 searchBar.addEventListener("mouseover", function(){
     searchBar.style.cssText =
     `filter: opacity(1);
@@ -235,7 +235,7 @@ searchBar.addEventListener("mouseleave", function(){
     `
 });
 
-//Handling the dropdown menu
+// Handling the dropdown menu appearance
 dropdown.addEventListener("click", function(){
     dropdown.style.cssText =
     `filter: opacity(1);
@@ -252,9 +252,23 @@ dropdown.addEventListener("mouseleave", function(){
     `
 });
 
+// Handling search operations
 searchButton.addEventListener("click", function(){
     const searchValue = searchBar.value
 })
+
+// Handling music volume
+musicCursor.addEventListener("drag", function(){
+    if(musicCursor.style.left === "0%"){
+        volumeIcon.setAttribute("src", "icons/no-volume.svg");
+        volumeIcon.setAttribute("title", "Muted");
+    }
+    if(musicCursor.style.left === "100%"){
+        volumeIcon.setAttribute("src", "icons/fullvolume.svg");
+        volumeIcon.setAttribute("title", "Full Volume");
+    }
+})
+
 
 // Toggling between play and pause for songs
 function playPauseSong(){
@@ -352,7 +366,6 @@ document.querySelectorAll(".selected").forEach(tile =>{
         }
 
         // Assigning the values to the footer container
-
         const current = document.getElementById("displayBar-playing");
         const currentSongImage = document.getElementById("playing");
         const currentSong = document.getElementById("CurrentSong");

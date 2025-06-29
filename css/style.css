@@ -141,7 +141,7 @@ main{
     gap: 0.3vh;
     position: relative;
     flex-direction: column;
-    width: 60%;
+    width: 100%;
     bottom: 0.5vh;
 }
 
@@ -163,7 +163,7 @@ main{
 
 #seekbar{
     height: 0.3vh;
-    width: 120%;
+    width: 75%;
     background-color: aliceblue;
 }
 
