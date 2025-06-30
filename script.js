@@ -79,6 +79,11 @@ const shareLink = {}; // To store the shareable link of the songs stored
 const songAudio = {}; // To store the audio tracks of the songs stored
 const playingSongName = {} // To store the names of the songs stored
 
+const current = document.getElementById("displayBar-playing"); // To access the footer div
+const currentSongImage = document.getElementById("playing"); // To access the image div in footer
+const currentSong = document.getElementById("CurrentSong"); // To access the current song area in footer
+const currentSinger = document.getElementById("CurrentSinger"); // To access the current singer area in footer
+
 // Fetch songs from Jamendo as soon as window loads
 document.addEventListener("DOMContentLoaded", function(){
     fetchMainSongs();
@@ -91,6 +96,11 @@ async function fetchMainSongs() {
     fetchedMainsongs = await fetchedMainsongs.json();
     const content = fetchedMainsongs.results;
 
+    placeMainSongs(content);
+}
+
+// Place songs in the main section both from DOMLoad and search
+function placeMainSongs(content){
     console.log(content);
 
     content.forEach((song, index) => {
@@ -230,71 +240,76 @@ async function fetchAlbumSongs(artist_name) {
     });
 }
 
-// Handling the searchbar appearance
-searchBar.addEventListener("mouseover", function(){
-    searchBar.style.cssText =
-    `filter: opacity(1);
-    `
-});
-searchBar.addEventListener("keydown", function(){
-    searchBar.style.cssText =
-    `filter: opacity(1);
-    `
-});
-searchBar.addEventListener("mouseleave", function(){
-    searchBar.style.cssText =
-    `filter: opacity(0.4);
-    `
-});
+// Handling the searchbar and dropdown appearance
+{
+    // Handling the searchbar appearance
+    searchBar.addEventListener("mouseover", function(){
+        searchBar.style.cssText =
+        `filter: opacity(1);
+        `
+    });
+    searchBar.addEventListener("keydown", function(){
+        searchBar.style.cssText =
+        `filter: opacity(1);
+        `
+    });
+    searchBar.addEventListener("mouseleave", function(){
+        searchBar.style.cssText =
+        `filter: opacity(0.4);
+        `
+    });
 
-// Handling the dropdown menu appearance
-dropdown.addEventListener("click", function(){
-    dropdown.style.cssText =
-    `filter: opacity(1);
-    `
-});
-dropdown.addEventListener("mouseover", function(){
-    dropdown.style.cssText =
-    `filter: opacity(1);
-    `
-});
-dropdown.addEventListener("mouseleave", function(){
-    dropdown.style.cssText =
-    `filter: opacity(0.4);
-    `
-});
+    // Handling the dropdown menu appearance
+    dropdown.addEventListener("click", function(){
+        dropdown.style.cssText =
+        `filter: opacity(1);
+        `
+    });
+    dropdown.addEventListener("mouseover", function(){
+        dropdown.style.cssText =
+        `filter: opacity(1);
+        `
+    });
+    dropdown.addEventListener("mouseleave", function(){
+        dropdown.style.cssText =
+        `filter: opacity(0.4);
+        `
+    });
+}
 
 // Handling search operations
-async function search(name, type) {
-    const Today = new Date().toISOString().split("T")[0];// fetching current date
+{
+    async function search(name, type) {
+        const Today = new Date().toISOString().split("T")[0];// fetching current date
 
-    let searchUrl;
-    if(type === "album")
-        searchUrl = `https://api.jamendo.com/v3.0/artists/albums/?client_id=${id}&order=album_releasedate_desc&format=jsonpretty&limit=35&album_name=${name}&album_datebetween=0000-00-00_${Today}`;
-    else if(type === "track")
-        searchUrl = ``;
-    else if(type === "playlist")
-        searchUrl = ``;
-    else
-        searchUrl = `https://api.jamendo.com/v3.0/artists/?client_id=${id}&format=jsonpretty&limit=35&name=${name}`;
+        let searchUrl;
+        if(type === "album")
+            searchUrl = `https://api.jamendo.com/v3.0/artists/albums/?client_id=${id}&order=album_releasedate_desc&format=jsonpretty&limit=35&album_name=${name}&album_datebetween=0000-00-00_${Today}`;
+        else if(type === "track")
+            searchUrl = ``;
+        else if(type === "playlist")
+            searchUrl = ``;
+        else
+            searchUrl = `https://api.jamendo.com/v3.0/artists/?client_id=${id}&format=jsonpretty&limit=35&name=${name}`;
 
-    let content = await fetch(searchUrl);
-    content = await content.json();
+        let content = await fetch(searchUrl);
+        content = await content.json();
 
-    console.log(content);
-}
-function dropdownValue(search_term){
-    console.log(search_term);
-    const dropdown_value = dropdown.value;
-    search(search_term, dropdown_value);
-}
-searchBar.addEventListener("keydown", function(event){
-    if(event.key === "Enter")
+        placeMainSongs(content);
+    }
+    function dropdownValue(search_term){
+        console.log(search_term);
+        const dropdown_value = dropdown.value;
+        search(search_term, dropdown_value);
+    }
+    searchBar.addEventListener("keydown", function(event){
+        if(event.key === "Enter")
+            dropdownValue(searchBar.value);
+    })
+    searchButton.addEventListener("click", () => {
         dropdownValue(searchBar.value);
-})
-searchButton.addEventListener("click", () => {
-    dropdownValue(searchBar.value);
-})
+    })
+}
 
 // Handling music volume
 musicCursor.addEventListener("drag", function(){
@@ -396,10 +411,7 @@ displayBar.addEventListener("click", function(){
 });
 
 // Selecting the song to be played and its after events
-document.addEventListener("click", function (event) {
-    const tile = event.target.closest(".selected");
-    if (!tile) return;
-    const songId = tile.getAttribute("id"); // ID of the song selected
+function playSong(songId, tile){
     currentSongID = songId;
 
     let songName, songArtist, songImage;
@@ -432,11 +444,6 @@ document.addEventListener("click", function (event) {
     }
 
     // Assigning the values to the footer container
-    const current = document.getElementById("displayBar-playing");
-    const currentSongImage = document.getElementById("playing");
-    const currentSong = document.getElementById("CurrentSong");
-    const currentSinger = document.getElementById("CurrentSinger");
-
     current.setAttribute("data-song-id", songId);
     currentSongImage.setAttribute("src", songImage);
     currentSong.textContent = songName;
@@ -462,7 +469,7 @@ document.addEventListener("click", function (event) {
             console.log("Now playing:", songName);
         })
         .catch(err => {
-            console.warn("Playback error:", err);
+            alert(`${String(err).split(":")[1]}\nReload the website`);
         });
 
 
@@ -471,88 +478,93 @@ document.addEventListener("click", function (event) {
     fetchAlbumSongs(songArtist);
     console.log(`Call sent for ${songArtist}`);
     fetchQueueSongs();
+}
 
-    // Generating the share link for the song playing
+// Handling clicking of songtiles
+document.addEventListener("click", function (event) {
+    const tile = event.target.closest(".selected");
+    if (!tile) return;
+    playSong(tile.getAttribute("id"), tile);
+})
 
-    document.getElementById("share").addEventListener("click", function () {
-        const link = shareLink[songId];
+// Generating the share link for the song playing
+document.getElementById("share").addEventListener("click", function () {
+    const link = shareLink[songId];
 
-        // Remove any existing popup
-        const existing = document.getElementById("share-popup");
-        if (existing) 
-            existing.remove();
+    // Remove any existing popup
+    const existing = document.getElementById("share-popup");
+    if (existing) 
+        existing.remove();
 
-        // Create popup div comprising the link and copy icon
-        const show = document.createElement("div");
-        show.id = "share-popup";
+    // Create popup div comprising the link and copy icon
+    const show = document.createElement("div");
+    show.id = "share-popup";
 
-        show.style.cssText =
-        `position: absolute;
-        background-color: #fff;
-        border: 1px solid #ccc;
-        padding: 6px 10px;
-        border-radius: 6px;
-        box-shadow: 0 2px 10px rgba(0,0,0,0.2);
-        display: flex;
-        align-items: center;
-        gap: 6px;
-        z-index: 1000;
-        `
+    show.style.cssText =
+    `position: absolute;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    padding: 6px 10px;
+    border-radius: 6px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    z-index: 1000;
+    `
 
-        // Create input with link
-        const input = document.createElement("input");
-        input.type = "text";
-        input.value = link;
-        input.readOnly = true;
+    // Create input with link
+    const input = document.createElement("input");
+    input.type = "text";
+    input.value = link;
+    input.readOnly = true;
 
-        input.style.cssText =
-        `border: none;
-        background: transparent;
-        outline: none;
-        width: 10vw;
-        font-size: 1em;
-        `
-        input.addEventListener("click", () => input.select());
+    input.style.cssText =
+    `border: none;
+    background: transparent;
+    outline: none;
+    width: 10vw;
+    font-size: 1em;
+    `
+    input.addEventListener("click", () => input.select());
 
-        // Create copy icon for the link
-        const copy = document.createElement("img");
-        copy.src = "icons/copy-icon.svg";
-        copy.alt = "Copy";
-        copy.title = "Copy Link";
+    // Create copy icon for the link
+    const copy = document.createElement("img");
+    copy.src = "icons/copy-icon.svg";
+    copy.alt = "Copy";
+    copy.title = "Copy Link";
 
-        copy.style.cssText = 
-        `width: 1em;
-        height: 1em;
-        cursor: pointer
-        `
-        copy.addEventListener("click", () => {
-            navigator.clipboard.writeText(link)
-                .then(() => {
-                    copy.title = "Copied to clipboard";
-                    setTimeout(() => copy.title = "Copy Link", 2000);
-                })
-                .catch(() => {
-                    copy.title = "Failed!";
-                });
-        });
-
-        // Append input and icon
-        show.appendChild(input);
-        show.appendChild(copy);
-        document.body.appendChild(show);
-
-        // Position popup above the share icon
-        const rect = this.getBoundingClientRect();
-        show.style.top = `${rect.top + window.scrollY - 40}px`;  // 40px above
-        show.style.left = `${rect.left + window.scrollX}px`;
-
-        // Close if user clicks outside
-        document.addEventListener("click", function outsideClick(e) {
-            if (!show.contains(e.target) && e.target !== document.getElementById("share")) {
-                show.remove();
-                document.removeEventListener("click", outsideClick);
-            }
-        });
+    copy.style.cssText = 
+    `width: 1em;
+    height: 1em;
+    cursor: pointer
+    `
+    copy.addEventListener("click", () => {
+        navigator.clipboard.writeText(link)
+            .then(() => {
+                copy.title = "Copied to clipboard";
+                setTimeout(() => copy.title = "Copy Link", 2000);
+            })
+            .catch(() => {
+                copy.title = "Failed!";
+            });
     });
 
+    // Append input and icon
+    show.appendChild(input);
+    show.appendChild(copy);
+    document.body.appendChild(show);
+
+    // Position popup above the share icon
+    const rect = this.getBoundingClientRect();
+    show.style.top = `${rect.top + window.scrollY - 40}px`;  // 40px above
+    show.style.left = `${rect.left + window.scrollX}px`;
+
+    // Close if user clicks outside
+    document.addEventListener("click", function outsideClick(e) {
+        if (!show.contains(e.target) && e.target !== document.getElementById("share")) {
+            show.remove();
+            document.removeEventListener("click", outsideClick);
+        }
+    });
 });

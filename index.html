@@ -390,8 +390,8 @@
             <div class=" flexbox library-gap jcc aic manrope">
 
                 <!-- Details of the song currently playing -->
-                <div class="flexbox displayBar-playing aic" id="displayBar-playing">
-                    <img src="Blackbg.jpeg" alt="Currently playing" id="playing" class="playbar-hide dp-bar-elements">
+                <div class="flexbox displayBar-playing aic jcsa" id="displayBar-playing">
+                    <img src="Blackbg.jpeg" alt="Currently playing" id="playing" class="playbar-hide dp-bar-elements border">
                     <div class="playing-details gray">
                         <p class="text-hover currentText playbar-hide dp-bar-elements" id="CurrentSong">Lorem, ipsum.</p>
                         <p class="text-hover currentText playbar-hide dp-bar-elements" id="CurrentSinger">Lorem ipsum dolor sit.</p>
@@ -408,8 +408,8 @@
                 <!-- Sound settings for the song and share button-->
                 <div class="flexbox song-controls jcc aic" id="soundShare">
                     <img src="icons/no-volume.svg" alt="Mute" class="svg-mid playbar-icons dp-bar-elements" title="Mute" id="VolumeIcon">
-                    <div id="musicSeekBar" class="dp-bar-elements">
-                        <div id="musicCircleCursor"  class="dp-bar-elements"></div>
+                    <div id="musicSeekBar" class="dp-bar-elements seek">
+                        <div id="musicCircleCursor"  class="dp-bar-elements seekCircle"></div>
                     </div>
 
                     <!-- Share button for the song-->
@@ -425,8 +425,8 @@
             </div>
 
             <!-- Seekbar of the song -->
-            <div id="seekbar" class="dp-bar-elements">
-                <div id="circle-cursor"  class="dp-bar-elements"></div>
+            <div id="seekbar" class="dp-bar-elements seek">
+                <div id="circle-cursor"  class="dp-bar-elements seekCircle"></div>
             </div>
         </div>
     </footer>
