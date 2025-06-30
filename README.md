@@ -18,6 +18,8 @@ Songs & Images: Any kind of media used is from https://developer.jamendo.com/v3.
 
 Icons: SVG icons are used from https://www.svgrepo.com/.
 
+Autoplay icons created by yaicon - Flaticon
+
 # 🎨 Creative Liberty
 
 This project is a creative interpretation and not an exact replica of Spotify.

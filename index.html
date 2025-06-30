@@ -29,7 +29,7 @@
             <select id="dropdown" class="border search-control">
                 <option value="artist">Artist</option>
                 <option value="album">Album</option>
-                <option value="genre">Genre</option>
+                <option value="playlist">Playlist</option>
                 <option value="track">Track</option>
             </select>
             <input type="text" placeholder="What do you want to play?" id="searchbar" class="search-control">
@@ -420,6 +420,8 @@
                     <input type="text" id="shareLink" readonly>
                     <img src="icons/copy-icon.svg" alt="Copy" class="svg-mid dp-bar-elements" id="copyIcon" title="Copy Link">
                 </div>
+
+                <img src="icons/autoplay-off.svg" alt="autoplay" class="svg-mid playbar-icons dp-bar-elements" id="autoplay" title="Autoplay-off">
             </div>
 
             <!-- Seekbar of the song -->
@@ -427,7 +429,6 @@
                 <div id="circle-cursor"  class="dp-bar-elements"></div>
             </div>
         </div>
-
     </footer>
 
 </body>

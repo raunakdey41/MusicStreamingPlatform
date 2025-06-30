@@ -41,9 +41,9 @@ const musicTags = [
   "prateek kuhad", "anish sasha", "adele", "lorde", "norah jones", "john mayer",
   "hozier", "lewis capaldi", "sigrid", "aurora"
 ];
-
-const main_url = `https://api.jamendo.com/v3.0/tracks/?client_id=da69b01d&format=json&limit=35&search=${musicTags[Math.ceil(Math.random()*35)]}` // URL to fetch songs for the main section
-const queue_url = `https://api.jamendo.com/v3.0/tracks/?client_id=da69b01d&format=json&limit=20&search=${musicTags[Math.floor(Math.random()*15)]}`// URL to fetch songs for the queue section
+const id = `da69b01d`;
+const main_url = `https://api.jamendo.com/v3.0/tracks/?client_id=${id}&format=json&limit=35&search=${musicTags[Math.ceil(Math.random()*35)]}` // URL to fetch songs for the main section
+const queue_url = `https://api.jamendo.com/v3.0/tracks/?client_id=${id}&format=json&limit=20&search=${musicTags[Math.floor(Math.random()*15)]}`// URL to fetch songs for the queue section
 
 // Storage variable for the searchbar
 
@@ -73,9 +73,11 @@ let queueTiles = document.querySelectorAll(".queue-song"); // Store the tiles of
 let NextSongID; // To store the ID of the first song in the upcoming queue list
 let currentAudio = null; // To store the audio of the current song
 let currentSongID; // To store the ID of the current song
+const autoplay = document.getElementById("autoplay"); // To store the control of autoplay
 
 const shareLink = {}; // To store the shareable link of the songs stored
 const songAudio = {}; // To store the audio tracks of the songs stored
+const playingSongName = {} // To store the names of the songs stored
 
 // Fetch songs from Jamendo as soon as window loads
 document.addEventListener("DOMContentLoaded", function(){
@@ -105,6 +107,7 @@ async function fetchMainSongs() {
         // Set the share link
         shareLink[song.id] = song.shareurl;
         songAudio[song.id] = song["audio"];
+        playingSongName[song.id] = song["name"];
     });
 }
 
@@ -123,6 +126,7 @@ async function fetchQueueSongs() {
     content.forEach(song => {
 
         songAudio[song.id] = song.audio;
+        playingSongName[song.id] = song.name;
 
         // Create the tile container
         const tile = document.createElement("div");
@@ -170,7 +174,7 @@ async function fetchAlbumSongs(artist_name) {
     console.log(`Called ${artist_name}`);
     document.getElementById("library-heading").textContent = `More from ${artist_name}`;
 
-    const album_url = `https://api.jamendo.com/v3.0/tracks/?client_id=da69b01d&format=json&limit=20&search=${artist_name}`// URL to fetch songs for the artist section
+    const album_url = `https://api.jamendo.com/v3.0/tracks/?client_id=${id}&format=json&limit=20&search=${artist_name}`// URL to fetch songs for the artist section
     let fetchedAlbumsongs = await fetch(album_url);
     fetchedAlbumsongs = await fetchedAlbumsongs.json();
     const content = fetchedAlbumsongs.results;
@@ -184,6 +188,7 @@ async function fetchAlbumSongs(artist_name) {
         if(song.artist_name === artist_name){
 
             songAudio[song.id] = song.audio;
+            playingSongName[song.id] = song.name;
 
             // Create the tile container
             const tile = document.createElement("div");
@@ -260,8 +265,35 @@ dropdown.addEventListener("mouseleave", function(){
 });
 
 // Handling search operations
-searchButton.addEventListener("click", function(){
-    const searchValue = searchBar.value
+async function search(name, type) {
+    const Today = new Date().toISOString().split("T")[0];// fetching current date
+
+    let searchUrl;
+    if(type === "album")
+        searchUrl = `https://api.jamendo.com/v3.0/artists/albums/?client_id=${id}&order=album_releasedate_desc&format=jsonpretty&limit=35&album_name=${name}&album_datebetween=0000-00-00_${Today}`;
+    else if(type === "track")
+        searchUrl = ``;
+    else if(type === "playlist")
+        searchUrl = ``;
+    else
+        searchUrl = `https://api.jamendo.com/v3.0/artists/?client_id=${id}&format=jsonpretty&limit=35&name=${name}`;
+
+    let content = await fetch(searchUrl);
+    content = await content.json();
+
+    console.log(content);
+}
+function dropdownValue(search_term){
+    console.log(search_term);
+    const dropdown_value = dropdown.value;
+    search(search_term, dropdown_value);
+}
+searchBar.addEventListener("keydown", function(event){
+    if(event.key === "Enter")
+        dropdownValue(searchBar.value);
+})
+searchButton.addEventListener("click", () => {
+    dropdownValue(searchBar.value);
 })
 
 // Handling music volume
@@ -275,6 +307,24 @@ musicCursor.addEventListener("drag", function(){
         volumeIcon.setAttribute("title", "Full Volume");
     }
 })
+
+// Toggling between autoplay-on and autoplay-off
+function autoPlayControl(){
+    currentState = autoplay.getAttribute("src")
+
+    if(currentState.includes("off")){
+        autoplay.setAttribute("title", "Autoplay-on");
+        autoplay.setAttribute("src", "icons/autoplay-on.svg");
+    }
+    else{
+        autoplay.setAttribute("title", "Autoplay-off");
+        autoplay.setAttribute("src", "icons/autoplay-off.svg");
+    }
+
+    console.log(currentSongID);
+    console.log(songAudio[currentSongID]);
+}
+autoplay.addEventListener("click", autoPlayControl);
 
 
 // Toggling between play and pause for songs
