@@ -63,7 +63,8 @@ let playPause = document.getElementById("play"); // Play button on the media con
 let musicCursor = document.getElementById("musicCircleCursor"); // To store the cursor
 let volumeIcon = document.getElementById("VolumeIcon"); // TO store the volume icon and change it
 
-// let selected = document.getElementsByClassName("selected"); // To store the tiles of all the songs in the webpage
+// Storage variables for song and its elements
+
 let songContainer = document.querySelectorAll(".song-container"); // Store the entire box of songs
 let songTiles = document.querySelectorAll(".song-tiles") // Store arrays for the entire tiles
 let singerNames = document.querySelectorAll(".singer-name") // Store arrays of the singers' name
@@ -73,7 +74,7 @@ let queueTiles = document.querySelectorAll(".queue-song"); // Store the tiles of
 let NextSongID; // To store the ID of the first song in the upcoming queue list
 let currentAudio = null; // To store the audio of the current song
 let currentSongID; // To store the ID of the current song
-const autoplay = document.getElementById("autoplay"); // To store the control of autoplay
+const autoplay = document.getElementById("autoplay"); // To store the control of autoplay button
 
 const shareLink = {}; // To store the shareable link of the songs stored
 const songAudio = {}; // To store the audio tracks of the songs stored
@@ -85,19 +86,15 @@ const currentSong = document.getElementById("CurrentSong"); // To access the cur
 const currentSinger = document.getElementById("CurrentSinger"); // To access the current singer area in footer
 
 // Fetch songs from Jamendo as soon as window loads
-document.addEventListener("DOMContentLoaded", function(){
+document.addEventListener("DOMContentLoaded", () => {
     fetchMainSongs();
     document.getElementById("displayBar-playing").style.display = "none";
 })
 
-// Fetch songs from Jamendo only for the main songs section
-async function fetchMainSongs() {
-    let fetchedMainsongs = await fetch(main_url);
-    fetchedMainsongs = await fetchedMainsongs.json();
-    const content = fetchedMainsongs.results;
-
-    placeMainSongs(content);
-}
+// Handle clicking of logo
+document.getElementById("logo").addEventListener("click", () => {
+    fetchMainSongs();
+})
 
 // Place songs in the main section both from DOMLoad and search
 function placeMainSongs(content){
@@ -119,6 +116,15 @@ function placeMainSongs(content){
         songAudio[song.id] = song["audio"];
         playingSongName[song.id] = song["name"];
     });
+}
+
+// Fetch songs from Jamendo only for the main songs section
+async function fetchMainSongs() {
+    let fetchedMainsongs = await fetch(main_url);
+    fetchedMainsongs = await fetchedMainsongs.json();
+    const content = fetchedMainsongs.results;
+
+    placeMainSongs(content);
 }
 
 // Fetch songs from Jamendo only for the queue section
@@ -282,20 +288,21 @@ async function fetchAlbumSongs(artist_name) {
     async function search(name, type) {
         const Today = new Date().toISOString().split("T")[0];// fetching current date
 
+        document.getElementById("queue-songs").textContent = "";
+        document.getElementById("library-songs").textContent = "";
+
         let searchUrl;
-        if(type === "album")
-            searchUrl = `https://api.jamendo.com/v3.0/artists/albums/?client_id=${id}&order=album_releasedate_desc&format=jsonpretty&limit=35&album_name=${name}&album_datebetween=0000-00-00_${Today}`;
-        else if(type === "track")
-            searchUrl = ``;
-        else if(type === "playlist")
-            searchUrl = ``;
+        if (type === "artist")
+            searchUrl = `https://api.jamendo.com/v3.0/artists/?client_id=${id}&format=jsonpretty&limit=35&namesearch=${name}&album_datebetween=0000-00-00_${Today}`; // Artist
+        else if (type === "album")
+            searchUrl = `https://api.jamendo.com/v3.0/artists/albums/?client_id=${id}&order=album_releasedate_desc&format=jsonpretty&limit=35&album_name=${name}&album_datebetween=0000-00-00_${Today}`; // Album
         else
-            searchUrl = `https://api.jamendo.com/v3.0/artists/?client_id=${id}&format=jsonpretty&limit=35&name=${name}`;
+            searchUrl = `https://api.jamendo.com/v3.0/artists/tracks/?client_id=${id}&limit=35&format=jsonpretty&order=track_name_desc&track_name=${name}&album_datebetween=0000-00-00_${Today}`; // Track
 
         let content = await fetch(searchUrl);
         content = await content.json();
 
-        placeMainSongs(content);
+        placeMainSongs(content["results"]);
     }
     function dropdownValue(search_term){
         console.log(search_term);
@@ -343,42 +350,39 @@ autoplay.addEventListener("click", autoPlayControl);
 
 
 // Toggling between play and pause for songs
-function playPauseSong(){
-    if(!currentSongID)
-        return; // No song selected
+{
+    function playPauseSong(){
+        if(!currentSongID)
+            return; // No song selected
 
-    const songSrc = songAudio[currentSongID];
+        const songSrc = songAudio[currentSongID];
 
-    // In case of playing a new song
-    
-    if(!currentAudio || currentAudio.src != songSrc){
-        if(currentAudio)
+        // In case of playing a new song
+        if(!currentAudio || currentAudio.src != songSrc){
+            if(currentAudio)
+                currentAudio.pause();
+            currentAudio = new Audio(songSrc);
+        }
+
+        currentState = playPause.getAttribute("src");
+
+        if(currentState.includes("play")){
             currentAudio.pause();
-        currentAudio = new Audio(songSrc);
+            playPause.setAttribute("src", "icons/pause.svg");
+        }
+        else{
+            currentAudio.play();
+            playPause.setAttribute("src", "icons/play.svg");
+        }
     }
-
-    currentState = playPause.getAttribute("src");
-
-    if(currentState.includes("play")){
-        currentAudio.pause();
-        playPause.setAttribute("src", "icons/pause.svg");
-    }
-    else{
-        currentAudio.play();
-        playPause.setAttribute("src", "icons/play.svg");
-    }
+    playPause.addEventListener("click", playPauseSong);
 }
-playPause.addEventListener("click", playPauseSong);
 
 // Toggling between show and hide for the display bar
 displayBar.addEventListener("click", function(){
     currentState = displayBar.getAttribute("title"); //Current condition of the display bar
 
     let playBarElements = document.getElementsByClassName("dp-bar-elements");
-    console.log(playBarElements);
-
-    // let playBarIcons = document.getElementsByClassName("playbar-icons");
-    // let playbarHide = document.getElementsByClassName("playbar-hide");
 
     if (currentState.includes("Hide")) {
         bar.style.height = "4vh";
@@ -399,13 +403,12 @@ displayBar.addEventListener("click", function(){
         displayBar.setAttribute("title", "Hide Bar");
         displayBar.setAttribute("src", "icons/arrow-down.svg");
         for(let i = 0; i < playBarElements.length; i++){
-            playBarElements[i].style.cssText = 
-            `
-            width: "";
-            height: "";
-            display: "";
-            `
+            playBarElements[i].style.cssText = "";
         }
+        document.getElementById("playing").style.cssText=
+            `aspect-ratio: 1 / 0.55;
+            width: 5vw;
+            object-fit: cover; `
         bar.style.transitionDuration = "500ms";
     }
 });
@@ -434,7 +437,10 @@ function playSong(songId, tile){
         `display: flex;
         width: 30vh;
         height: 5vh;`;
-        document.getElementById("playing").style.width = "10vh"
+        document.getElementById("playing").style.cssText=
+        `aspect-ratio: 1 / 0.55;
+        width: 5vw;
+        object-fit: cover; `
         document.getElementById("CurrentSong").style.cssText=
         `height: 2vh;
         overflow: hidden;`
@@ -458,7 +464,7 @@ function playSong(songId, tile){
 
     const songSrc = songAudio[currentSongID];
     if (!songSrc) {
-        console.warn("Missing audio source for ID:", currentSongID);
+        alert("Missing audio source for ", songName,"\nReload the website");
         return;
     }
     const nextAudio = new Audio(songSrc); 
@@ -474,6 +480,8 @@ function playSong(songId, tile){
 
 
     console.log(`Played ${songName}`);
+    console.log(nextAudio.duration);
+    console.log(nextAudio.currentTime);
 
     fetchAlbumSongs(songArtist);
     console.log(`Call sent for ${songArtist}`);
@@ -489,7 +497,7 @@ document.addEventListener("click", function (event) {
 
 // Generating the share link for the song playing
 document.getElementById("share").addEventListener("click", function () {
-    const link = shareLink[songId];
+    const link = shareLink[currentSongID];
 
     // Remove any existing popup
     const existing = document.getElementById("share-popup");
@@ -543,6 +551,8 @@ document.getElementById("share").addEventListener("click", function () {
         navigator.clipboard.writeText(link)
             .then(() => {
                 copy.title = "Copied to clipboard";
+                copy.src = "icons/tick.svg";
+                copy.style.transitionDuration = "500ms";
                 setTimeout(() => copy.title = "Copy Link", 2000);
             })
             .catch(() => {

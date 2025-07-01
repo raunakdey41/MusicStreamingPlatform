@@ -29,7 +29,6 @@
             <select id="dropdown" class="border search-control">
                 <option value="artist">Artist</option>
                 <option value="album">Album</option>
-                <option value="playlist">Playlist</option>
                 <option value="track">Track</option>
             </select>
             <input type="text" placeholder="What do you want to play?" id="searchbar" class="search-control">
@@ -72,12 +71,12 @@
 
             <!-- Super container of the entire song section -->
 
-            <div class="super-song-container individual-scroll">
+            <div class="individual-scroll" id="super-song-container">
 
                 <!-- Container for the songs -->
 
                 <div id="trending" class="song-container">
-                    Trending Songs
+                    <div class="heading">Trending Songs</div>
 
                     <!-- Tiles containing the songs -->
 
@@ -131,7 +130,7 @@
                 <!-- Container for the songs -->
 
                 <div id="artists" class="song-container">
-                    Popular artists
+                    <div class="heading">Popular artists</div>
 
                     <!-- Tiles containing the songs -->
 
@@ -186,7 +185,7 @@
                 <!-- Container for the songs -->
 
                 <div id="albums" class="song-container">
-                    Popular albums and singles
+                    <div class="heading">Popular albums and singles</div>
 
                     <!-- Tiles containing the songs -->
 
@@ -242,7 +241,7 @@
                 <!-- Container for the songs -->
 
                 <div id="featured" class="song-container">
-                    Featured Charts
+                    <div class="heading">Featured Charts</div>
 
                     <!-- Tiles containing the songs -->
 
@@ -297,7 +296,7 @@
                 <!-- Container for the songs -->
 
                 <div id="best" class="song-container">
-                    Best On List
+                    <div class="heading">Best On List</div>
 
                     <!-- Tiles containing the songs -->
 

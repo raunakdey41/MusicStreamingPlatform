@@ -76,6 +76,10 @@ main{
     gap: 1.5vh;
 }
 
+#super-song-container{
+    margin: 1.5em;
+}
+
 #song-section{
     flex-flow: column;
     width: 58vw;
@@ -130,12 +134,6 @@ main{
 .playbar-icons:hover{
     box-shadow:  0 0 1em rgba(0, 85, 239, 1);
     filter: brightness(1.5);
-}
-
-#playing{
-    aspect-ratio: 1 / 0.55;
-    width: 100vw;
-    object-fit: cover; 
 }
 
 #adjust{

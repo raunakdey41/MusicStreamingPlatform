@@ -175,14 +175,10 @@
     gap: 2vh 1.5vw;
 }
 
-.super-song-container{
-    margin: 0.5em;
-}
-
 .song-container{
     font-weight:900;
     font-size: x-large;
-    padding: 2vh 2vw;
+    padding: 1vh 1vw;
 }
 
 .song-tiles{
@@ -301,7 +297,7 @@
 
 .seek{
     background: #516f8a;
-    height: 0.3vh;
+    height: 0.5vh;
 }
 
 .seekCircle{
