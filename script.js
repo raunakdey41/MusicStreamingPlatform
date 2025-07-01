@@ -467,12 +467,18 @@ function playSong(songId, tile){
         alert("Missing audio source for ", songName,"\nReload the website");
         return;
     }
-    const nextAudio = new Audio(songSrc); 
+    const thisAudio = new Audio(songSrc); 
 
-    nextAudio.play()
+    thisAudio.play()
         .then(() => {
-            currentAudio = nextAudio; // only now set it
+            currentAudio = thisAudio; // only now set it
             console.log("Now playing:", songName);
+
+            const duration = thisAudio.duration;
+            let currentTime = thisAudio.currentTime;
+            console.log(currentTime,"\t",duration);
+            if(thisAudio.ended)
+                console.log(`${thisAudio} ended`);
         })
         .catch(err => {
             alert(`${String(err).split(":")[1]}\nReload the website`);
@@ -480,8 +486,6 @@ function playSong(songId, tile){
 
 
     console.log(`Played ${songName}`);
-    console.log(nextAudio.duration);
-    console.log(nextAudio.currentTime);
 
     fetchAlbumSongs(songArtist);
     console.log(`Call sent for ${songArtist}`);

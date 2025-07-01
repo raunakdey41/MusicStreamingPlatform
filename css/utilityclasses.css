@@ -190,12 +190,14 @@
 }
 
 .song-name{
+    height: 10%;
     font-size: 16px;
     font-weight: 400;
     overflow: hidden;
 }
 
 .singers{
+    height: 10%;
     font-size: 14px;
     font-weight: 300;
     flex-wrap: wrap;
