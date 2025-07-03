@@ -335,15 +335,19 @@ musicCursor.addEventListener("drag", function(){
 // Toggling between autoplay-on and autoplay-off
 {
     function autoPlayControl(){
-        currentState = autoplay.getAttribute("src")
+        currentState = autoplay.getAttribute("data-state")
 
         if(currentState.includes("off")){
             autoplay.setAttribute("title", "Autoplay-on");
-            autoplay.setAttribute("src", "icons/autoplay-on.svg");
+            autoplay.setAttribute("data-state", "on");
+            autoplay.style.cssText =
+            `box-shadow:  0 0 1em rgba(0, 85, 239, 1);
+            filter: brightness(1.5);`;
         }
         else{
             autoplay.setAttribute("title", "Autoplay-off");
-            autoplay.setAttribute("src", "icons/autoplay-off.svg");
+            autoplay.setAttribute("data-state", "off");
+            autoplay.style.cssText = ``;
         }
         autoplay.style.transitionDuration = "500ms";
 
@@ -353,6 +357,24 @@ musicCursor.addEventListener("drag", function(){
     autoplay.addEventListener("click", autoPlayControl);
 }
 
+// Clicking on a specific time and seeking it
+{
+    document.getElementById("seekbar").addEventListener("mouseover", e =>{
+
+        const seekTime = formatTime(((e.clientX - document.getElementById("seekbar").getBoundingClientRect().left)/document.getElementById("seekbar").getBoundingClientRect().width) * currentAudio.duration);
+        document.getElementById("seekbar").setAttribute("title", seekTime);
+    })
+    document.getElementById("seekbar").addEventListener("mouseleave", () =>{
+        document.getElementById("seekbar").setAttribute("title", "");
+    })
+    document.getElementById("seekbar").addEventListener("click", e =>{
+        console.log(e.offsetX, document.getElementById("seekbar").getBoundingClientRect().width);
+
+        document.getElementById("circle-cursor").style.left = (e.offsetX/document.getElementById("seekbar").getBoundingClientRect().width) * 100 + "%";
+        document.getElementById("circle-cursor").style.transitionDuration = "750ms";
+        
+    })
+}
 
 // Toggling between play and pause for songs
 {

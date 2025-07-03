@@ -122,15 +122,11 @@ main{
     border-bottom: none;
     box-shadow: 0 0.2em 1em 0.1em #566c83;
     filter: opacity(0.8);
-    backdrop-filter: blur(8px);
+    backdrop-filter: blur(2.5px);
 }
 
 #soundShare{
     gap: 1vh;
-}
-
-#autoplay{
-    transform: scaleX(-1);
 }
 
 #display{
