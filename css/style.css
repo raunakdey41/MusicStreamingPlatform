@@ -65,6 +65,7 @@ main{
     overflow-y: hidden;
     overflow-x: hidden;
     padding-bottom: 2vw;
+    flex-wrap: wrap;
 }
 
 #library-heading{
@@ -95,6 +96,7 @@ main{
     overflow-y: hidden;
     overflow-x: hidden;
     padding-bottom: 2vw;
+    flex-wrap: wrap;
 }
 
 #queue-songs{
@@ -127,6 +129,10 @@ main{
     gap: 1vh;
 }
 
+#autoplay{
+    transform: scaleX(-1);
+}
+
 #display{
     filter: invert(0.3);
 }
@@ -144,10 +150,19 @@ main{
     bottom: 0.8vh;
 }
 
+#duration{
+    width: 70%;
+    gap: 1vw;
+}
+
+#circle-cursor{
+    left: 0%;
+}
+
 #musicSeekBar{
     width: 15vh;
 }
 
 #seekbar{
-    width: 75%;
+    width: 90%;
 }

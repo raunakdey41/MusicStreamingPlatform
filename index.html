@@ -392,15 +392,15 @@
                 <div class="flexbox displayBar-playing aic jcsa" id="displayBar-playing">
                     <img src="Blackbg.jpeg" alt="Currently playing" id="playing" class="playbar-hide dp-bar-elements border">
                     <div class="playing-details gray">
-                        <p class="text-hover currentText playbar-hide dp-bar-elements" id="CurrentSong">Lorem, ipsum.</p>
-                        <p class="text-hover currentText playbar-hide dp-bar-elements" id="CurrentSinger">Lorem ipsum dolor sit.</p>
+                        <p class="text-hover currentText playbar-hide dp-bar-elements" id="CurrentSong"></p>
+                        <p class="text-hover currentText playbar-hide dp-bar-elements" id="CurrentSinger"></p>
                     </div>
                 </div>
 
                 <!-- Play settings for a song -->
                 <div class="play-settings song-controls flexbox jcc aic">
                     <img src="icons/prev-song.svg" alt="Play previous song" class="svg-mid playbar-icons dp-bar-elements" title="Previous song" id="prev-song">
-                    <img src="icons/play.svg" alt="Play/Pause button" class="svg-mid playbar-icons dp-bar-elements" id="play">
+                    <img src="icons/pause.svg" alt="Play/Pause button" class="svg-mid playbar-icons dp-bar-elements" id="playPause" data-id="pause">
                     <img src="icons/next-song.svg" alt="Play next song" class="svg-mid playbar-icons dp-bar-elements" title="Next song" id="next-song">
                 </div>
 
@@ -423,9 +423,15 @@
                 <img src="icons/autoplay-off.svg" alt="autoplay" class="svg-mid playbar-icons dp-bar-elements" id="autoplay" title="Autoplay-off">
             </div>
 
-            <!-- Seekbar of the song -->
-            <div id="seekbar" class="dp-bar-elements seek">
-                <div id="circle-cursor"  class="dp-bar-elements seekCircle"></div>
+            <div id="duration" class="gray flexbox aic">
+                <!-- Current timestamp of the song -->
+                <div id="currentTime">00:00</div>
+                <!-- Seekbar of the song -->
+                <div id="seekbar" class="dp-bar-elements seek">
+                    <div id="circle-cursor"  class="dp-bar-elements seekCircle"></div>
+                </div>
+                <!-- Total duration of the song -->
+                <div id="totalDuration">00:00</div>
             </div>
         </div>
     </footer>

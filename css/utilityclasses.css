@@ -152,6 +152,7 @@
 
 .individual-scroll{
     overflow-y: auto;
+    overflow-x: hidden;
     scrollbar-color: var(--lightgrey) var(--darkgrey);
 }
 
@@ -300,6 +301,7 @@
 .seek{
     background: #516f8a;
     height: 0.5vh;
+    cursor: pointer;
 }
 
 .seekCircle{

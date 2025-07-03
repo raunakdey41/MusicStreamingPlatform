@@ -42,8 +42,11 @@ const musicTags = [
   "hozier", "lewis capaldi", "sigrid", "aurora"
 ];
 const id = `da69b01d`;
-const main_url = `https://api.jamendo.com/v3.0/tracks/?client_id=${id}&format=json&limit=35&search=${musicTags[Math.ceil(Math.random()*35)]}` // URL to fetch songs for the main section
-const queue_url = `https://api.jamendo.com/v3.0/tracks/?client_id=${id}&format=json&limit=20&search=${musicTags[Math.floor(Math.random()*15)]}`// URL to fetch songs for the queue section
+
+const offset = Math.floor(Math.random() * 100);
+
+const main_url = `https://api.jamendo.com/v3.0/tracks/?client_id=${id}&format=json&limit=35&search=${musicTags[Math.ceil(Math.random()*35)]}&offset=${offset}` // URL to fetch songs for the main section
+const queue_url = `https://api.jamendo.com/v3.0/tracks/?client_id=${id}&format=json&limit=20&search=${musicTags[Math.floor(Math.random()*15)]}&offset=${offset}`// URL to fetch songs for the queue section
 
 // Storage variable for the searchbar
 
@@ -56,7 +59,6 @@ const searchButton = document.getElementById("searchButton"); // To store the se
 let currentState; // To access the current state of any attribute
 let displayBar = document.getElementById("display"); // The sign for showing/hiding the bar
 let bar = document.getElementById("music-control");// The footer section
-let playPause = document.getElementById("play"); // Play button on the media control bar
 
 // Storage variables for volume
 
@@ -331,22 +333,25 @@ musicCursor.addEventListener("drag", function(){
 })
 
 // Toggling between autoplay-on and autoplay-off
-function autoPlayControl(){
-    currentState = autoplay.getAttribute("src")
+{
+    function autoPlayControl(){
+        currentState = autoplay.getAttribute("src")
 
-    if(currentState.includes("off")){
-        autoplay.setAttribute("title", "Autoplay-on");
-        autoplay.setAttribute("src", "icons/autoplay-on.svg");
-    }
-    else{
-        autoplay.setAttribute("title", "Autoplay-off");
-        autoplay.setAttribute("src", "icons/autoplay-off.svg");
-    }
+        if(currentState.includes("off")){
+            autoplay.setAttribute("title", "Autoplay-on");
+            autoplay.setAttribute("src", "icons/autoplay-on.svg");
+        }
+        else{
+            autoplay.setAttribute("title", "Autoplay-off");
+            autoplay.setAttribute("src", "icons/autoplay-off.svg");
+        }
+        autoplay.style.transitionDuration = "500ms";
 
-    console.log(currentSongID);
-    console.log(songAudio[currentSongID]);
+        console.log(currentSongID);
+        console.log(songAudio[currentSongID]);
+    }
+    autoplay.addEventListener("click", autoPlayControl);
 }
-autoplay.addEventListener("click", autoPlayControl);
 
 
 // Toggling between play and pause for songs
@@ -364,18 +369,21 @@ autoplay.addEventListener("click", autoPlayControl);
             currentAudio = new Audio(songSrc);
         }
 
-        currentState = playPause.getAttribute("src");
+        currentState = document.getElementById("playPause").getAttribute("data-id");
 
         if(currentState.includes("play")){
             currentAudio.pause();
-            playPause.setAttribute("src", "icons/pause.svg");
+            document.getElementById("playPause").setAttribute("src", "icons/pause.svg");
+            document.getElementById("playPause").setAttribute("data-id", "pause");
         }
         else{
             currentAudio.play();
-            playPause.setAttribute("src", "icons/play.svg");
+            document.getElementById("playPause").setAttribute("src", "icons/play.svg");
+            document.getElementById("playPause").setAttribute("data-id", "play");
+            document.getElementById("circle-cursor").style.left = (currentAudio.currentTime/currentAudio.duration) * 100 + "%";
         }
     }
-    playPause.addEventListener("click", playPauseSong);
+    document.getElementById("playPause").addEventListener("click", playPauseSong);
 }
 
 // Toggling between show and hide for the display bar
@@ -412,6 +420,15 @@ displayBar.addEventListener("click", function(){
         bar.style.transitionDuration = "500ms";
     }
 });
+
+// Fetching the duration and current timestamp for the playing song
+function formatTime(seconds) {
+    seconds = Math.floor(seconds); // Remove any decimals
+    const mins = Math.floor(seconds / 60);
+    const secs = seconds % 60;
+    const formattedSecs = secs < 10 ? '0' + secs : secs;
+    return `${mins}:${formattedSecs}`;
+}
 
 // Selecting the song to be played and its after events
 function playSong(songId, tile){
@@ -471,14 +488,16 @@ function playSong(songId, tile){
 
     thisAudio.play()
         .then(() => {
+            document.getElementById("playPause").setAttribute("src", "icons/play.svg");
+            document.getElementById("playPause").setAttribute("data-id", "play");
             currentAudio = thisAudio; // only now set it
             console.log("Now playing:", songName);
 
-            const duration = thisAudio.duration;
-            let currentTime = thisAudio.currentTime;
-            console.log(currentTime,"\t",duration);
-            if(thisAudio.ended)
-                console.log(`${thisAudio} ended`);
+            document.getElementById("totalDuration").textContent = formatTime(thisAudio.duration);
+            thisAudio.addEventListener("timeupdate", () => {
+                document.getElementById("currentTime").textContent = formatTime(thisAudio.currentTime);
+                document.getElementById("circle-cursor").style.left = (thisAudio.currentTime/thisAudio.duration) * 100 + "%";
+            })
         })
         .catch(err => {
             alert(`${String(err).split(":")[1]}\nReload the website`);
