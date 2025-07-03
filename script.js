@@ -321,15 +321,8 @@ async function fetchAlbumSongs(artist_name) {
 }
 
 // Handling music volume
-musicCursor.addEventListener("drag", function(){
-    if(musicCursor.style.left === "0%"){
-        volumeIcon.setAttribute("src", "icons/no-volume.svg");
-        volumeIcon.setAttribute("title", "Muted");
-    }
-    if(musicCursor.style.left === "100%"){
-        volumeIcon.setAttribute("src", "icons/fullvolume.svg");
-        volumeIcon.setAttribute("title", "Full Volume");
-    }
+musicCursor.addEventListener("volumechange", (e) =>{
+    console.log(e)
 })
 
 // Toggling between autoplay-on and autoplay-off
@@ -372,6 +365,8 @@ musicCursor.addEventListener("drag", function(){
 
         document.getElementById("circle-cursor").style.left = (e.offsetX/document.getElementById("seekbar").getBoundingClientRect().width) * 100 + "%";
         document.getElementById("circle-cursor").style.transitionDuration = "750ms";
+
+        currentAudio.currentTime = (e.offsetX/document.getElementById("seekbar").getBoundingClientRect().width) * currentAudio.duration;
         
     })
 }
@@ -519,6 +514,9 @@ function playSong(songId, tile){
             thisAudio.addEventListener("timeupdate", () => {
                 document.getElementById("currentTime").textContent = formatTime(thisAudio.currentTime);
                 document.getElementById("circle-cursor").style.left = (thisAudio.currentTime/thisAudio.duration) * 100 + "%";
+
+                if(thisAudio.ended)
+                    document.getElementById("playPause").setAttribute("src", "icons/replay.svg");
             })
         })
         .catch(err => {
