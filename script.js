@@ -95,7 +95,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 // Handle clicking of logo
 document.getElementById("logo").addEventListener("click", () => {
-    fetchMainSongs();
+    location.reload();
 })
 
 // Place songs in the main section both from DOMLoad and search
@@ -321,9 +321,51 @@ async function fetchAlbumSongs(artist_name) {
 }
 
 // Handling music volume
-musicCursor.addEventListener("volumechange", (e) =>{
-    console.log(e)
-})
+{
+    const volumeIcon = document.getElementById("VolumeIcon");
+
+    document.getElementById("musicSeekBar").addEventListener("click", (e)=>{
+        console.log(e.offsetX , document.getElementById("musicSeekBar").getBoundingClientRect(), document.getElementById("musicSeekBar").getBoundingClientRect().width );
+
+        const width = document.getElementById("musicSeekBar").getBoundingClientRect().width;
+
+        musicCursor.style.left = (e.offsetX/width) * 100 +"%";
+        musicCursor.style.transitionDuration = "750ms";
+        currentAudio.volume = e.offsetX/width;
+
+        if (width - e.offsetX === 0) {
+            volumeIcon.setAttribute("src", "icons/fullvolume.svg");
+            volumeIcon.setAttribute("data-state", "Full Volume");
+        }
+        else if (width - e.offsetX === width){
+            volumeIcon.setAttribute("src", "icons/no-volume.svg");
+            volumeIcon.setAttribute("data-state", "No Volume");
+        }
+        else{
+            volumeIcon.setAttribute("src", "icons/midvolume.svg");
+            volumeIcon.setAttribute("data-state", "Audible");
+        }
+    })
+    volumeIcon.addEventListener("dblclick", () =>{
+        currentState = volumeIcon.getAttribute("data-state");
+
+        if(currentState.includes("Full")){
+            volumeIcon.setAttribute("src", "icons/no-volume.svg");
+            volumeIcon.setAttribute("data-state", "No Volume");
+            musicCursor.style.left = "0%";
+            musicCursor.style.transitionDuration = "750ms";
+            currentAudio.volume = 0;
+        }
+
+        if(currentState.includes("No")){
+            volumeIcon.setAttribute("src", "icons/fullvolume.svg");
+            volumeIcon.setAttribute("data-state", "Full Volume");
+            musicCursor.style.left = "100%";
+            musicCursor.style.transitionDuration = "750ms";
+            currentAudio.volume = 1;
+        }
+    })
+}
 
 // Toggling between autoplay-on and autoplay-off
 {
@@ -361,8 +403,6 @@ musicCursor.addEventListener("volumechange", (e) =>{
         document.getElementById("seekbar").setAttribute("title", "");
     })
     document.getElementById("seekbar").addEventListener("click", e =>{
-        console.log(e.offsetX, document.getElementById("seekbar").getBoundingClientRect().width);
-
         document.getElementById("circle-cursor").style.left = (e.offsetX/document.getElementById("seekbar").getBoundingClientRect().width) * 100 + "%";
         document.getElementById("circle-cursor").style.transitionDuration = "750ms";
 

@@ -126,7 +126,7 @@ main{
 }
 
 #soundShare{
-    gap: 1vh;
+    gap: 2vh;
 }
 
 #display{
@@ -149,6 +149,10 @@ main{
 #duration{
     width: 70%;
     gap: 1vw;
+}
+
+#musicCircleCursor{
+    left: 90%;
 }
 
 #circle-cursor{
