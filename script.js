@@ -86,7 +86,7 @@ const currentSong = document.getElementById("CurrentSong"); // To access the cur
 const currentSinger = document.getElementById("CurrentSinger"); // To access the current singer area in footer
 
 let songsPlayed = {}; // Object to store songs played since the loading of the webpage
-let songsPlayed_name = []; // To store the name of the songs played since the loading of the page
+let songsPlayed_id = []; // To store the name of the songs played since the loading of the page
 
 // Fetch songs from Jamendo as soon as window loads
 document.addEventListener("DOMContentLoaded", () => {
@@ -444,6 +444,27 @@ async function fetchAlbumSongs(artist_name) {
     document.getElementById("playPause").addEventListener("click", playPauseSong);
 }
 
+// Playing the previous songs
+{
+    function prevSong(){
+        if(songsPlayed_id.indexOf(currentSongID) === 0 || !songsPlayed_id){
+            document.querySelector("#prev-song").setAttribute("title", "No previous Song");
+        }
+        else{
+            document.querySelector("#prev-song").setAttribute("title", "Previous Song");
+
+            const prevSongid = songsPlayed_id[songsPlayed_id.indexOf(currentSongID) - 1];
+            console.log(prevSongid);
+
+            let thisAudio = new Audio(prevSong);
+            console.log(thisAudio);
+        }
+    }
+    document.querySelector("#prev-song").addEventListener("click", ()=>{
+        prevSong();
+    })
+}
+
 // Toggling between show and hide for the display bar
 displayBar.addEventListener("click", function(){
     currentState = displayBar.getAttribute("title"); //Current condition of the display bar
@@ -550,15 +571,21 @@ function playSong(songId, tile){
             document.getElementById("playPause").setAttribute("data-id", "play");
             currentAudio = thisAudio; // only now set it
 
-            songsPlayed[songName] = {
-                "audio": songSrc,
-                "songArtist": songArtist,
-                "songImage": songImage
-            };
-
-            songsPlayed_name.push(songName);
+            // Adding in the list of songs played
+            if(songsPlayed_id[songsPlayed_id.length - 1] != currentSongID)
+            {
+                songsPlayed_id.push(currentSongID);
+                songsPlayed[currentSongID] = {
+                    "name": songName,
+                    "audio": songSrc,
+                    "songArtist": songArtist,
+                    "songImage": songImage
+                };
+            }
 
             console.log(songsPlayed);
+            console.log(songsPlayed_id);
+
             console.log("Now playing:", songName);
 
             document.getElementById("totalDuration").textContent = formatTime(thisAudio.duration);
