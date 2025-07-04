@@ -42,9 +42,7 @@ const musicTags = [
   "hozier", "lewis capaldi", "sigrid", "aurora"
 ];
 const id = `da69b01d`;
-
 const offset = Math.floor(Math.random() * 100);
-
 const main_url = `https://api.jamendo.com/v3.0/tracks/?client_id=${id}&format=json&limit=35&search=${musicTags[Math.ceil(Math.random()*35)]}&offset=${offset}` // URL to fetch songs for the main section
 const queue_url = `https://api.jamendo.com/v3.0/tracks/?client_id=${id}&format=json&limit=20&search=${musicTags[Math.floor(Math.random()*15)]}&offset=${offset}`// URL to fetch songs for the queue section
 
@@ -86,6 +84,9 @@ const current = document.getElementById("displayBar-playing"); // To access the 
 const currentSongImage = document.getElementById("playing"); // To access the image div in footer
 const currentSong = document.getElementById("CurrentSong"); // To access the current song area in footer
 const currentSinger = document.getElementById("CurrentSinger"); // To access the current singer area in footer
+
+let songsPlayed = {}; // Object to store songs played since the loading of the webpage
+let songsPlayed_name = []; // To store the name of the songs played since the loading of the page
 
 // Fetch songs from Jamendo as soon as window loads
 document.addEventListener("DOMContentLoaded", () => {
@@ -548,6 +549,16 @@ function playSong(songId, tile){
             document.getElementById("playPause").setAttribute("src", "icons/play.svg");
             document.getElementById("playPause").setAttribute("data-id", "play");
             currentAudio = thisAudio; // only now set it
+
+            songsPlayed[songName] = {
+                "audio": songSrc,
+                "songArtist": songArtist,
+                "songImage": songImage
+            };
+
+            songsPlayed_name.push(songName);
+
+            console.log(songsPlayed);
             console.log("Now playing:", songName);
 
             document.getElementById("totalDuration").textContent = formatTime(thisAudio.duration);
