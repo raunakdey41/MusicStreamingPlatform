@@ -87,7 +87,7 @@ const currentSinger = document.getElementById("CurrentSinger"); // To access the
 
 let songsPlayed = {}; // Object to store songs played since the loading of the webpage
 let songsPlayed_id = []; // To store the name of the songs played since the loading of the page
-let currentIndexInHistory = songsPlayed_id.length - 1; // Track the position of pointer in the array
+let playHistoryIndex = -1; // To store the index of the song being played
 
 // Fetch songs from Jamendo as soon as window loads
 document.addEventListener("DOMContentLoaded", () => {
@@ -448,52 +448,53 @@ async function fetchAlbumSongs(artist_name) {
 // Playing the previous songs
 {
     function prevSong(){
-        if(songsPlayed_id.indexOf(currentSongID) === 0 || !songsPlayed_id){
+        if(playHistoryIndex <= 0){
             document.querySelector("#prev-song").setAttribute("title", "No previous Song");
             return;
         }
-        else{
-            document.querySelector("#prev-song").setAttribute("title", "Previous Song");
 
-            currentIndexInHistory--;
-            const prevSongid = songsPlayed_id[currentIndexInHistory];
-            const prevSongAudio = songsPlayed[prevSongid]["audioSource"];
-            const prevSongName = songsPlayed[prevSongid]["name"];
-            const prevSongArtist = songsPlayed[prevSongid]["songArtist"];
-            const prevSongImage = songsPlayed[prevSongid]["songImage"];
+        document.querySelector("#prev-song").setAttribute("title", "Previous Song");
 
-            if(songsPlayed_id[songsPlayed_id.length - 1] != currentSongID)
-                songsPlayed_id.push(currentSongID);
-            if(!(currentSongID in songsPlayed)){
-                songsPlayed[currentSongID] = {
-                    "name": currentSong.textContent,
-                    "audioSource": songSrc,
-                    "songArtist": currentSinger.textContent,
-                    "songImage": currentSongImage.getAttribute("src")
-                };
-            }
+        playHistoryIndex--;
+        const prevSongid = songsPlayed_id[playHistoryIndex];
+        const prevSongAudio = songsPlayed[prevSongid]["audioSource"];
+        const prevSongName = songsPlayed[prevSongid]["name"];
+        const prevSongArtist = songsPlayed[prevSongid]["songArtist"];
+        const prevSongImage = songsPlayed[prevSongid]["songImage"];
 
-            console.log(prevSongAudio, prevSongName, prevSongArtist, prevSongImage);
+        console.log(prevSongid, prevSongAudio, prevSongArtist, prevSongImage);
 
-            // Assigning the values to the footer container
-            current.setAttribute("data-song-id", prevSongid);
-            currentSongImage.setAttribute("src", prevSongImage);
-            currentSong.textContent = prevSongName;
-            currentSinger.textContent = prevSongArtist;
+        if(songsPlayed_id[songsPlayed_id.length - 1] != currentSongID)
+            songsPlayed_id.push(currentSongID);
+        if(!(currentSongID in songsPlayed)){
+            songsPlayed[currentSongID] = {
+                "name": currentSong.textContent,
+                "audioSource": songSrc,
+                "songArtist": currentSinger.textContent,
+                "songImage": currentSongImage.getAttribute("src")
+            };
+        }
 
-            const prevAudio = new Audio(prevSongAudio);
+        console.log(prevSongAudio, prevSongName, prevSongArtist, prevSongImage);
 
-            if (currentAudio) {
-            currentAudio.pause();
-            currentAudio.currentTime = 0;
-            }
+        // Assigning the values to the footer container
+        current.setAttribute("data-song-id", prevSongid);
+        currentSongImage.setAttribute("src", prevSongImage);
+        currentSong.textContent = prevSongName;
+        currentSinger.textContent = prevSongArtist;
 
-            try{
-                playSong(prevSongAudio);
-            }
-            catch{
-                alert(`Failed to load ${prevSongName}\nReload the Website`);
-            }
+        if (currentAudio) {
+        currentAudio.pause();
+        currentAudio.currentTime = 0;
+        }
+
+        currentSongID = prevSongid;
+
+        try{
+            playSong(prevSongAudio);
+        }
+        catch{
+            alert(`Failed to load ${prevSongName}\nReload the Website`);
         }
     }
     document.querySelector("#prev-song").addEventListener("click", ()=>{
@@ -558,8 +559,15 @@ function playSong(songSrc){
             currentAudio = thisAudio; // only now set it
 
             // Adding in the list of songs played
-            if(songsPlayed_id[songsPlayed_id.length - 1] != currentSongID)
+            if (songsPlayed_id[playHistoryIndex] !== currentSongID) {
+                // Remove any forward history
+                songsPlayed_id = songsPlayed_id.slice(0, playHistoryIndex + 1);
+
+                // Add new song to history
                 songsPlayed_id.push(currentSongID);
+                playHistoryIndex = songsPlayed_id.length - 1;
+            }
+
             if(!(currentSongID in songsPlayed)){
                 songsPlayed[currentSongID] = {
                     "name": currentSong.textContent,
@@ -571,7 +579,6 @@ function playSong(songSrc){
 
             console.log(songsPlayed);
             console.log(songsPlayed_id);
-
             console.log("Now playing:", currentSong.textContent);
 
             document.getElementById("totalDuration").textContent = formatTime(thisAudio.duration);
