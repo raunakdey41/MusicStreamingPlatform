@@ -71,7 +71,6 @@ let singerNames = document.querySelectorAll(".singer-name") // Store arrays of t
 let songNames = document.querySelectorAll(".song-name"); // Store arrays of the song tiles
 let songTileImages = document.querySelectorAll(".song-tile-images"); // Store the images of the songs
 let queueTiles = document.querySelectorAll(".queue-song"); // Store the tiles of the queue
-let NextSongID; // To store the ID of the first song in the upcoming queue list
 let currentAudio = null; // To store the audio of the current song
 let currentSongID; // To store the ID of the current song
 const autoplay = document.getElementById("autoplay"); // To store the control of autoplay button
@@ -88,11 +87,13 @@ const currentSinger = document.getElementById("CurrentSinger"); // To access the
 let songsPlayed = {}; // Object to store songs played since the loading of the webpage
 let songsPlayed_id = []; // To store the name of the songs played since the loading of the page
 let playHistoryIndex = -1; // To store the index of the song being played
+let queueIndex; // To store the index of the queue song being played
 
 // Fetch songs from Jamendo as soon as window loads
 document.addEventListener("DOMContentLoaded", () => {
     fetchMainSongs();
     document.getElementById("displayBar-playing").style.display = "none";
+    queueIndex = 0;
 })
 
 // Handle clicking of logo
@@ -185,8 +186,6 @@ async function fetchQueueSongs() {
         // Finally, append tile to the main container
         queueContainer.appendChild(tile);
     });
-
-    NextSongID = queueContainer.firstChild.getAttribute("id");
 }
 
 // Fetch songs from Jamendo only for the artist(library) section
@@ -449,7 +448,6 @@ async function fetchAlbumSongs(artist_name) {
 {
     function prevSong(){
         if(playHistoryIndex <= 0){
-            document.querySelector("#prev-song").setAttribute("title", "No previous Song");
             return;
         }
 
@@ -499,6 +497,92 @@ async function fetchAlbumSongs(artist_name) {
     }
     document.querySelector("#prev-song").addEventListener("click", ()=>{
         prevSong();
+    })
+}
+
+// Playing the next song
+{
+    function nextSong() {
+        let audioSource, name, songArtist, songImage;
+
+        // Check if at the end of play history
+        if (playHistoryIndex >= songsPlayed_id.length - 1) {
+            // No next history — fallback to queue
+            const queueFirst = document.querySelector("#queue-songs").children[queueIndex];
+
+            if (!queueFirst) {
+                alert("Queue is empty.");
+                return;
+            }
+
+            const childNodes = queueFirst.children;
+
+            // Extract data from queue DOM
+            songImage = childNodes[0].getAttribute("src");
+            name = childNodes[1].firstChild.textContent;
+            songArtist = childNodes[1].lastChild.textContent;
+            audioSource = songAudio[document.querySelector("#queue-songs").children[queueIndex].id];
+            console.log(songImage, name, songArtist, audioSource);
+
+            if (!audioSource) {
+                alert("Missing audio source in queue.");
+                return;
+            }
+
+            const queueSongID = document.getElementById("queue-songs").childNodes[queueIndex].id;
+
+            // Add to history
+            songsPlayed_id.push(queueSongID);
+            playHistoryIndex = songsPlayed_id.length - 1;
+
+            songsPlayed[queueSongID] = {
+                name,
+                audioSource,
+                songArtist,
+                songImage
+            };
+
+            currentSongID = queueSongID;
+        }
+        else {
+            // Go to the next song in history
+            playHistoryIndex++;
+            const nextSongid = songsPlayed_id[playHistoryIndex];
+            const nextSongData = songsPlayed[nextSongid];
+
+            if (!nextSongData) {
+                alert("Song data missing. Reload the site.");
+                return;
+            }
+
+            ({ audioSource, name, songArtist, songImage } = nextSongData);
+            currentSongID = nextSongid;
+        }
+
+        // Update the footer UI
+        current.setAttribute("data-song-id", currentSongID);
+        currentSongImage.setAttribute("src", songImage);
+        currentSong.textContent = name;
+        currentSinger.textContent = songArtist;
+
+        // Stop current audio
+        if (currentAudio) {
+            currentAudio.pause();
+            currentAudio.currentTime = 0;
+        }
+
+        // Play the new song
+        try {
+            playSong(audioSource);
+            fetchAlbumSongs(songArtist);
+        } 
+        catch {
+            alert(`Failed to load ${name}. Reload the Website`);
+        }
+    }
+    document.querySelector("#next-song").addEventListener("click", ()=>{
+        nextSong();
+        queueIndex++;
     })
 }
 
