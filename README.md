@@ -4,6 +4,10 @@ A project loosely inspired by Spotify, built purely with HTML, CSS, and JavaScri
 
 This is a conceptual clone with a custom UI and layout, created for learning and experimentation.
 
+## 📸 Preview
+
+![Music Streaming Platform Preview](Preview.png)
+
 ## 🎯 What This Website Actually Does
 
 I built this with the thing in mind that while people code, there's a need for white music that keeps on playing in the background. This music streaming platform provides a continuous flow of royalty-free tracks perfect for coding sessions, studying, or just vibing while you work.
