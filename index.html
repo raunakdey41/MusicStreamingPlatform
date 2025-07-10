@@ -11,6 +11,9 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Manrope:wght@200..800&family=Outfit:wght@100..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
     <link rel="shortcut icon" href="icons/guitar-icon.ico" type="image/x-icon">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&display=swap" rel="stylesheet">
 </head>
 <body>
     <!-- This is the header section i.e. the top part of the website -->
@@ -23,16 +26,15 @@
             <img src="icons/guitar-icon.svg" alt="logo" class="svg-mid filter logo-hover" id="logo"> 
         </div>
 
-        <!-- Comprises the search bar -->
+        <!-- Comprises Date and Time -->
 
-        <div class="right-header search-section flexbox jcsb">
-            <select id="dropdown" class="border search-control">
-                <option value="artist">Artist</option>
-                <option value="album">Album</option>
-                <option value="track">Track</option>
-            </select>
-            <input type="text" placeholder="What do you want to play?" id="searchbar" class="search-control">
-            <img src="icons/searchbutton.svg" alt="search" class="svg-mid filter hover grey-bg" id="searchButton">
+        <div class="search-section flexbox jcsb" id="right-header">
+            <div id="date" class="gray ">
+                <!-- Date goes here -->
+            </div>
+            <div id="time" class="gray">
+                <!-- Time goes here -->
+            </div>
         </div>
 
     </header>
@@ -402,6 +404,7 @@
                     <img src="icons/prev-song.svg" alt="Play previous song" class="svg-mid playbar-icons dp-bar-elements" title="Previous song" id="prev-song">
                     <img src="icons/pause.svg" alt="Play/Pause button" class="svg-mid playbar-icons dp-bar-elements" id="playPause" data-id="pause">
                     <img src="icons/next-song.svg" alt="Play next song" class="svg-mid playbar-icons dp-bar-elements" title="Next song" id="next-song">
+                    <img src="icons/autoplay.svg" alt="Autoplay toggle" class="svg-mid playbar-icons dp-bar-elements" title="Autoplay Off" id="autoplay-btn" data-state="off">
                 </div>
 
                 <!-- Sound settings for the song and share button-->
@@ -419,8 +422,6 @@
                     <input type="text" id="shareLink" readonly>
                     <img src="icons/copy-icon.svg" alt="Copy" class="svg-mid dp-bar-elements" id="copyIcon" title="Copy Link">
                 </div>
-
-                <img src="icons/autoplay.svg" alt="autoplay" class="svg-mid playbar-icons dp-bar-elements" id="autoplay" title="Autoplay-off" data-state="off">;
             </div>
 
             <div id="duration" class="gray flexbox aic">

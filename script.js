@@ -46,12 +46,6 @@ const offset = Math.floor(Math.random() * 100);
 const main_url = `https://api.jamendo.com/v3.0/tracks/?client_id=${id}&format=json&limit=35&search=${musicTags[Math.ceil(Math.random()*35)]}&offset=${offset}` // URL to fetch songs for the main section
 const queue_url = `https://api.jamendo.com/v3.0/tracks/?client_id=${id}&format=json&limit=20&search=${musicTags[Math.floor(Math.random()*15)]}&offset=${offset}`// URL to fetch songs for the queue section
 
-// Storage variable for the searchbar
-
-let dropdown = document.getElementById("dropdown"); // To store the dropdown elements
-let searchBar = document.getElementById("searchbar"); // To store the input and appearance of search bar
-const searchButton = document.getElementById("searchButton"); // To store the search button 
-
 // Storage variables for the display bar items
 
 let currentState; // To access the current state of any attribute
@@ -73,7 +67,6 @@ let songTileImages = document.querySelectorAll(".song-tile-images"); // Store th
 let queueTiles = document.querySelectorAll(".queue-song"); // Store the tiles of the queue
 let currentAudio = null; // To store the audio of the current song
 let currentSongID; // To store the ID of the current song
-const autoplay = document.getElementById("autoplay"); // To store the control of autoplay button
 
 const shareLink = {}; // To store the shareable link of the songs stored
 const songAudio = {}; // To store the audio tracks of the songs stored
@@ -88,12 +81,18 @@ let songsPlayed = {}; // Object to store songs played since the loading of the w
 let songsPlayed_id = []; // To store the name of the songs played since the loading of the page
 let playHistoryIndex = -1; // To store the index of the song being played
 let queueIndex; // To store the index of the queue song being played
+let isAutoplayEnabled = false; // To store the autoplay state
 
 // Fetch songs from Jamendo as soon as window loads
 document.addEventListener("DOMContentLoaded", () => {
     fetchMainSongs();
     document.getElementById("displayBar-playing").style.display = "none";
     queueIndex = 0;
+    
+    // Initialize autoplay button styling
+    const autoplayBtn = document.getElementById("autoplay-btn");
+    autoplayBtn.style.opacity = "0.7";
+    autoplayBtn.style.filter = "brightness(0.8)";
 })
 
 // Handle clicking of logo
@@ -249,76 +248,20 @@ async function fetchAlbumSongs(artist_name) {
     });
 }
 
-// Handling the searchbar and dropdown appearance
+// Updating Date and Time 
 {
-    // Handling the searchbar appearance
-    searchBar.addEventListener("mouseover", function(){
-        searchBar.style.cssText =
-        `filter: opacity(1);
-        `
-    });
-    searchBar.addEventListener("keydown", function(){
-        searchBar.style.cssText =
-        `filter: opacity(1);
-        `
-    });
-    searchBar.addEventListener("mouseleave", function(){
-        searchBar.style.cssText =
-        `filter: opacity(0.4);
-        `
-    });
+    function datetime(){
+        let obj = new Date();
 
-    // Handling the dropdown menu appearance
-    dropdown.addEventListener("click", function(){
-        dropdown.style.cssText =
-        `filter: opacity(1);
-        `
-    });
-    dropdown.addEventListener("mouseover", function(){
-        dropdown.style.cssText =
-        `filter: opacity(1);
-        `
-    });
-    dropdown.addEventListener("mouseleave", function(){
-        dropdown.style.cssText =
-        `filter: opacity(0.4);
-        `
-    });
-}
+        const date = obj.toDateString();
+        const hour = String(obj.getHours()).padStart(2, "0");
+        const min = String(obj.getMinutes()).padStart(2, "0");
+        const sec = String(obj.getSeconds()).padStart(2, "0");
 
-// Handling search operations
-{
-    async function search(name, type) {
-        const Today = new Date().toISOString().split("T")[0];// fetching current date
-
-        document.getElementById("queue-songs").textContent = "";
-        document.getElementById("library-songs").textContent = "";
-
-        let searchUrl;
-        if (type === "artist")
-            searchUrl = `https://api.jamendo.com/v3.0/artists/?client_id=${id}&format=jsonpretty&limit=35&namesearch=${name}&album_datebetween=0000-00-00_${Today}`; // Artist
-        else if (type === "album")
-            searchUrl = `https://api.jamendo.com/v3.0/artists/albums/?client_id=${id}&order=album_releasedate_desc&format=jsonpretty&limit=35&album_name=${name}&album_datebetween=0000-00-00_${Today}`; // Album
-        else
-            searchUrl = `https://api.jamendo.com/v3.0/artists/tracks/?client_id=${id}&limit=35&format=jsonpretty&order=track_name_desc&track_name=${name}&album_datebetween=0000-00-00_${Today}`; // Track
-
-        let content = await fetch(searchUrl);
-        content = await content.json();
-
-        placeMainSongs(content["results"]);
+        document.querySelector("#date").textContent = date;
+        document.querySelector("#time").textContent = `${hour}:${min}:${sec}`;
     }
-    function dropdownValue(search_term){
-        console.log(search_term);
-        const dropdown_value = dropdown.value;
-        search(search_term, dropdown_value);
-    }
-    searchBar.addEventListener("keydown", function(event){
-        if(event.key === "Enter")
-            dropdownValue(searchBar.value);
-    })
-    searchButton.addEventListener("click", () => {
-        dropdownValue(searchBar.value);
-    })
+    setInterval(datetime, 1000);
 }
 
 // Handling music volume
@@ -366,31 +309,6 @@ async function fetchAlbumSongs(artist_name) {
             currentAudio.volume = 1;
         }
     })
-}
-
-// Toggling between autoplay-on and autoplay-off
-{
-    function autoPlayControl(){
-        currentState = autoplay.getAttribute("data-state")
-
-        if(currentState.includes("off")){
-            autoplay.setAttribute("title", "Autoplay-on");
-            autoplay.setAttribute("data-state", "on");
-            autoplay.style.cssText =
-            `box-shadow:  0 0 1em rgba(0, 85, 239, 1);
-            filter: brightness(1.5);`;
-        }
-        else{
-            autoplay.setAttribute("title", "Autoplay-off");
-            autoplay.setAttribute("data-state", "off");
-            autoplay.style.cssText = ``;
-        }
-        autoplay.style.transitionDuration = "500ms";
-
-        console.log(currentSongID);
-        console.log(songAudio[currentSongID]);
-    }
-    autoplay.addEventListener("click", autoPlayControl);
 }
 
 // Clicking on a specific time and seeking it
@@ -586,6 +504,30 @@ async function fetchAlbumSongs(artist_name) {
     })
 }
 
+// Handling autoplay toggle
+{
+    function toggleAutoplay(){
+        const autoplayBtn = document.getElementById("autoplay-btn");
+        const currentState = autoplayBtn.getAttribute("data-state");
+        
+        if(currentState === "off"){
+            isAutoplayEnabled = true;
+            autoplayBtn.setAttribute("data-state", "on");
+            autoplayBtn.setAttribute("title", "Autoplay On");
+            autoplayBtn.style.opacity = "1";
+            autoplayBtn.style.filter = "brightness(1.2)";
+        } else {
+            isAutoplayEnabled = false;
+            autoplayBtn.setAttribute("data-state", "off");
+            autoplayBtn.setAttribute("title", "Autoplay Off");
+            autoplayBtn.style.opacity = "0.7";
+            autoplayBtn.style.filter = "brightness(0.8)";
+        }
+    }
+    
+    document.getElementById("autoplay-btn").addEventListener("click", toggleAutoplay);
+}
+
 // Toggling between show and hide for the display bar
 displayBar.addEventListener("click", function(){
     currentState = displayBar.getAttribute("title"); //Current condition of the display bar
@@ -673,6 +615,29 @@ function playSong(songSrc){
                 if(thisAudio.ended)
                     document.getElementById("playPause").setAttribute("src", "icons/replay.svg");
             })
+            
+            // Add event listener for song end to handle autoplay
+            thisAudio.addEventListener("ended", () => {
+                if(isAutoplayEnabled) {
+                    // Auto-play the next song from queue when current song ends
+                    setTimeout(() => {
+                        const queueSongs = document.querySelector("#queue-songs").children;
+                        if (queueIndex < queueSongs.length) {
+                            nextSong();
+                            queueIndex++;
+                        } else {
+                            // Queue is exhausted, turn off autoplay
+                            console.log("Queue exhausted. Turning off autoplay.");
+                            const autoplayBtn = document.getElementById("autoplay-btn");
+                            isAutoplayEnabled = false;
+                            autoplayBtn.setAttribute("data-state", "off");
+                            autoplayBtn.setAttribute("title", "Autoplay Off");
+                            autoplayBtn.style.opacity = "0.7";
+                            autoplayBtn.style.filter = "brightness(0.8)";
+                        }
+                    }, 1000); // Small delay to ensure smooth transition
+                }
+            });
         })
         .catch(err => {
             alert(`${String(err).split(":")[1]}\nReload the website`);

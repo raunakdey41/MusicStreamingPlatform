@@ -1,10 +1,3 @@
-/* Fonts available:
-    Inter
-    Manrope
-    Outfit
-    Poppins
- */
-
 :root{
     --fcw: white;
     --fcg: gray;
@@ -14,6 +7,7 @@
     --manrope: 'Manrope', serif;
     --outfit: 'Outfit', serif;
     --poppins: 'Poppins', serif;
+    --IBM: 'IBM Plex Mono', serif;
     --btn-color: white;
 }
 
@@ -91,10 +85,6 @@
 
 .bold{
     font-weight: bolder;
-}
-
-.right-header{
-    gap: 0.5vw;
 }
 
 .logo-hover:hover{

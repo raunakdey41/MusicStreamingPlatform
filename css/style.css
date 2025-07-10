@@ -7,6 +7,7 @@
     --manrope: 'Manrope', serif;
     --outfit: 'Outfit', serif;
     --poppins: 'Poppins', serif;
+    --IBM: 'IBM Plex Mono', serif;
     --btn-color: white;
 }
 
@@ -27,20 +28,13 @@ header{
     position: fixed;
     height: 8vh;
     margin: 1vh 5vw;
-    gap: 50vw;
+    gap: 70vw;
 }
 
-#dropdown{
-    width: 8vw;
-}
-
-#searchButton{
-    height: 4vh;
-}
-
-.search-section>input{
-    width: 25vw;
-    border-radius: 0.5em;
+#right-header{
+    font-size: larger;
+    gap: 2.5vw;
+    font-family: var(--IBM);
 }
 
 button{
